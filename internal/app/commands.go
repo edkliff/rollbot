@@ -28,7 +28,6 @@ func (app *RollBot) HelpCommand(a ...string)( string, error ){
 }
 
 func (app *RollBot) RollCommand(args ...string)( string, error) {
-	fmt.Println(args)
 	if len(args) == 0 {
 		result, err := app.Generator.Roll(2, 6)
 		if err != nil {
@@ -41,11 +40,9 @@ func (app *RollBot) RollCommand(args ...string)( string, error) {
 	if err != nil {
 		return "", err
 	}
-	fmt.Println(args)
 	resultString := ""
 	finalSum := int64(0)
 	for _, arg := range args {
-		fmt.Println(arg)
 		if isRoll(arg) {
 			count, dice, adder, err := ParseRoll(arg)
 			if err != nil {
@@ -69,7 +66,6 @@ func (app *RollBot) RollCommand(args ...string)( string, error) {
 }
 
 func GetReason(s string) ([]string, string, error) {
-	fmt.Println(s)
 	seq := "\\(.*\\)"
 	rx, err := regexp.Compile(seq)
 	if err != nil {
@@ -81,9 +77,7 @@ func GetReason(s string) ([]string, string, error) {
 		return args, "", nil
 	}
 	reason := string(reasonb)
-	fmt.Println(reason)
 	withoutReason := strings.ReplaceAll(s, reason, "")
-	fmt.Println(withoutReason)
 	args := strings.Split(withoutReason, " ")
 	return args, reason, nil
 }
@@ -127,6 +121,9 @@ func ParseRoll(s string) (int64, int64, int64, error)  {
 		decei, err := strconv.Atoi(dices)
 		if err != nil {
 			return 0,0,0, errors.New("Малой - мудак")
+		}
+		if dices == "" {
+			decei = 6
 		}
 		dice = int64(decei)
 	}

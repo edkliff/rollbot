@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -14,7 +13,6 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 	}
 	vkreq := &VKReq{}
-	fmt.Println("--------- start message ---------")
 	err = json.Unmarshal(body, vkreq)
 	if err != nil {
 		log.Println(err)
@@ -52,6 +50,5 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 			err = vkreq.SendResult(result, rb.Generator, rb.Config)
 		}
 	}
-	fmt.Println("--------- finish message ---------")
 
 }
