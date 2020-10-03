@@ -114,8 +114,11 @@ func ParseRoll(s string) (int64, int64, int64, error)  {
 	if len(args) >=1 {
 		counts := args[0]
 		counti, err := strconv.Atoi(counts)
-		if err != nil {
+		if err != nil && counts != "" {
 			return 0,0,0, errors.New("Малой - мудак")
+		}
+		if counts == "" {
+			counti = 1
 		}
 		count = int64(counti)
 	}
