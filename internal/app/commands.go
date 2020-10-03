@@ -77,7 +77,7 @@ func GetReason(s string) ([]string, string, error) {
 	}
 	reasonb := rx.Find([]byte(s))
 	if reasonb == nil {
-		args := strings.Split(string(reasonb), " ")
+		args := strings.Split(s, " ")
 		return args, "", nil
 	}
 	reason := string(reasonb)
