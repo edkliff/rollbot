@@ -51,6 +51,9 @@ func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Conf
 	}
 	params["message"] = text
 	params["reply_to"] = fmt.Sprintf("%d", vkr.Object.Message.ConversationMessageID)
+	if vkr.Object.Message.ID != 0 {
+		params["reply_to"] = fmt.Sprintf("%d", vkr.Object.Message.ID)
+	}
 	response, err := SendWithParams("messages.send", params, c)
 	if err != nil {
 		return err
