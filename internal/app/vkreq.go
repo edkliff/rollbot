@@ -45,7 +45,10 @@ func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Conf
 	params := make(map[string]string)
 	params["user_id"] = fmt.Sprintf("%d", vkr.Object.Message.FromID)
 	params["random_id"] =  fmt.Sprintf("%d", gen.Random(10000000,2147483646))
-	params["peer_id"] = fmt.Sprintf("%d", vkr.Object.Message.PeerID)
+	if vkr.Object.Message.PeerID != 0 {
+		delete(params, "user_id")
+		params["peer_id"] = fmt.Sprintf("%d", vkr.Object.Message.PeerID)
+	}
 	params["message"] = text
 	response, err := SendWithParams("messages.send", params, c)
 	if err != nil {
