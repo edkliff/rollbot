@@ -19,7 +19,6 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-
 	if vkreq.Type == Confirm {
 		b := []byte("61543fb6")
 		_, err = w.Write(b)
@@ -35,8 +34,8 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 	}
 	if vkreq.Type == MessageNew {
 		if vkreq.IsCommand() {
-			fmt.Println(string(body))
-			fmt.Println(vkreq)
+			// command, params := vkreq.ParseCommand()
+			// command(params...)
 			err = vkreq.SendResult("Наелся и сплю", rb.Generator, rb.Config)
 		}
 	}

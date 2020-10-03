@@ -41,7 +41,6 @@ type VKReq struct {
 }
 
 func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Config) error {
-	fmt.Println("------ send result ------")
 	params := make(map[string]string)
 	params["user_id"] = fmt.Sprintf("%d", vkr.Object.Message.FromID)
 	params["random_id"] =  fmt.Sprintf("%d", gen.Random(10000000,2147483646))
@@ -50,16 +49,14 @@ func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Conf
 		params["peer_id"] = fmt.Sprintf("%d", vkr.Object.Message.PeerID)
 	}
 	params["message"] = text
-	params["reply_to"] = fmt.Sprintf("%d", vkr.Object.Message.ConversationMessageID)
-	if vkr.Object.Message.ID != 0 {
+	if vkr.Object.Message.ConversationMessageID != 0 {
 		params["reply_to"] = fmt.Sprintf("%d", vkr.Object.Message.ID)
 	}
-	response, err := SendWithParams("messages.send", params, c)
+	_, err := SendWithParams("messages.send", params, c)
 	if err != nil {
 		return err
 	}
-	fmt.Println("RESPONSE:", string(response))
-	fmt.Println("------ result sended ------")
+
 	return nil
 }
 
@@ -76,7 +73,6 @@ func SendWithParams(method string, params map[string]string,  c config.Config) (
 		query.Set(k, v)
 	}
 	address.RawQuery = query.Encode()
-	fmt.Println("request", address.String())
 	response, err := http.Get(address.String())
 	if err != nil {
 		return nil, err

@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/go-chi/chi/middleware"
 	"log"
 	"net/http"
@@ -28,7 +29,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	rollbot := app.CreateRollBot(*conf, store)
 
 	mux := chi.NewRouter()
@@ -47,7 +47,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	params := make(map[string]string)
+	params["peer_id"] = fmt.Sprintf("%d", 2000000001)
+	params["random_id"] =  fmt.Sprintf("%d", rollbot.Generator.Random(10000000,2147483646))
+params["message"] = "Я"
+	c, err := app.SendWithParams("messages.send", params, rollbot.Config)
+	fmt.Println(string(c))
 	sgnl := make(chan os.Signal)
 	signal.Notify(sgnl, os.Interrupt, os.Kill)
 	<-sgnl
