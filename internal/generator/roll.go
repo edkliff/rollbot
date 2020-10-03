@@ -40,7 +40,7 @@ func (gen *Generator) Next() float64 {
 }
 
 func (gen *Generator) Roll(count int64, dice int64) ([]int64, error) {
-	if count > 1000 || dice > 1000 {
+	if count > 1000 || dice > 1000 || count < 1 || dice < 1 {
 		return nil, errors.New("Потому что Малой - мудак.")
 	}
 	results := make([]int64, count)
