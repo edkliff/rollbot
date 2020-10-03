@@ -14,13 +14,12 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 	}
 	vkreq := &VKReq{}
-	fmt.Println("REQUEST:", string(body))
+	fmt.Println("--------- start message ---------")
 	err = json.Unmarshal(body, vkreq)
 	if err != nil {
 		log.Println(err)
 	}
-	fmt.Println(string(body))
-	fmt.Println(vkreq)
+
 	if vkreq.Type == Confirm {
 		b := []byte("61543fb6")
 		_, err = w.Write(b)
@@ -29,10 +28,20 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 		}
 		return
 	}
-	err = vkreq.SendResult("Наелся и сплю", rb.Generator, rb.Config)
-	b := []byte("ok")
-	_, err = w.Write(b)
-	if err != nil {
-		log.Println(err)
+	go func() {
+		b := []byte("ok")
+		_, err = w.Write(b)
+		if err != nil {
+			log.Println(err)
+		}
+	}()
+	if vkreq.Type == MessageNew {
+		if vkreq.IsCommand() {
+			fmt.Println(string(body))
+			fmt.Println(vkreq)
+			err = vkreq.SendResult("Наелся и сплю", rb.Generator, rb.Config)
+		}
 	}
+	fmt.Println("--------- finish message ---------")
+
 }

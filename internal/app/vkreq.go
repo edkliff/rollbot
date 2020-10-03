@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strconv"
+	"strings"
 )
 
 type VKReq struct {
@@ -41,28 +41,18 @@ type VKReq struct {
 }
 
 func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Config) error {
-	if len(vkr.Object.Message.Text)>1 && vkr.Object.Message.Text[0] != byte('\\') &&vkr.Object.Message.Text[1] != byte('/') {
-		return nil
-	}
-	method := "messages.send"
+	fmt.Println("------ send result ------")
 	params := make(map[string]string)
-	if vkr.Object.Message.PeerID > 2000000000 {
-		params["chat_id"] = strconv.Itoa(vkr.Object.Message.PeerID - 2000000000)
-	} else if vkr.Object.Message.FromID > 0 {
-		params["user_id"] = strconv.Itoa(vkr.Object.Message.PeerID)
-	} else {
-		params["reply_to"] = strconv.Itoa(vkr.Object.Message.ConversationMessageID)
-	}
-	params["peer_id"] = strconv.Itoa(vkr.Object.Message.PeerID)
-	params["random_id"] = strconv.Itoa(int(gen.Random(9000000, 9999999)))
+	params["user_id"] = fmt.Sprintf("%d", vkr.Object.Message.FromID)
+	params["random_id"] =  fmt.Sprintf("%d", gen.Random(10000000,2147483646))
+	params["peer_id"] = fmt.Sprintf("%d", vkr.Object.Message.PeerID)
 	params["message"] = text
-
-
-	_, err := SendWithParams(method, params, c)
+	response, err := SendWithParams("messages.send", params, c)
 	if err != nil {
 		return err
 	}
-
+	fmt.Println("RESPONSE:", string(response))
+	fmt.Println("------ result sended ------")
 	return nil
 }
 
@@ -79,8 +69,7 @@ func SendWithParams(method string, params map[string]string,  c config.Config) (
 		query.Set(k, v)
 	}
 	address.RawQuery = query.Encode()
-	fmt.Println("------------------")
-	fmt.Println(address.RawQuery)
+	fmt.Println("request", address.String())
 	response, err := http.Get(address.String())
 	if err != nil {
 		return nil, err
@@ -91,7 +80,15 @@ func SendWithParams(method string, params map[string]string,  c config.Config) (
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(string(content))
-	fmt.Println("------------------")
+
 	return content, nil
+}
+
+func (vkr *VKReq) IsCommand() bool  {
+	s := strings.Replace(vkr.Object.Message.Text, "\"", "", -1)
+	vkr.Object.Message.Text = s
+	if len(s) > 0 && s[0] == '/' {
+		return true
+	}
+	return false
 }
