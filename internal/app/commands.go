@@ -41,6 +41,7 @@ func (app *RollBot) RollCommand(args ...string)( string, error) {
 	if err != nil {
 		return "", err
 	}
+	fmt.Println(args)
 	resultString := ""
 	finalSum := int64(0)
 	for _, arg := range args {
