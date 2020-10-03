@@ -1,6 +1,7 @@
 package generator
 
 import (
+	"errors"
 	"math"
 	"sync"
 	"time"
@@ -38,13 +39,16 @@ func (gen *Generator) Next() float64 {
 	return num
 }
 
-func (gen *Generator) Roll(count int64, dice int64) []int {
+func (gen *Generator) Roll(count int64, dice int64) ([]int, error) {
+	if count > 1000 || dice > 1000 {
+		return nil, errors.New("Я не буду выполнять эту команду. Простоо потому, что Малой - мудак.")
+	}
 	results := make([]int, count)
 	for i := 0; i < int(count); i++ {
 		a := gen.Random(0, dice)
 		results[i] = int(a)
 	}
-	return results
+	return results, nil
 }
 
 func (gen *Generator) Random(min int64, max int64) int64 {

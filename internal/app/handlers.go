@@ -34,9 +34,16 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 	}
 	if vkreq.Type == MessageNew {
 		if vkreq.IsCommand() {
-			// command, params := vkreq.ParseCommand()
-			// command(params...)
-			err = vkreq.SendResult("Наелся и сплю", rb.Generator, rb.Config)
+			command, params, err := rb.ParseCommand(vkreq)
+			if err!= nil {
+				log.Println(err)
+				return
+			}
+			result, err := command(params...)
+			if err != nil {
+				result = err.Error()
+			}
+			err = vkreq.SendResult(result, rb.Generator, rb.Config)
 		}
 	}
 	fmt.Println("--------- finish message ---------")
