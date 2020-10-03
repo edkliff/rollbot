@@ -104,8 +104,7 @@ func ParseRoll(s string) (int64, int64, int64, error)  {
 	s = strings.ReplaceAll(s, "+", " ")
 	s = strings.ReplaceAll(s, "d", " ")
 	args := strings.Split(s, " ")
-	fmt.Println(args)
-	var count, dice, adder int64
+	count, dice, adder := int64(1), int64(6), int64(0)
 	if len(args) >=1 {
 		counts := args[0]
 		counti, err := strconv.Atoi(counts)
@@ -136,8 +135,6 @@ func ParseRoll(s string) (int64, int64, int64, error)  {
 		}
 		adder = int64(adderi)
 	}
-	fmt.Println(count, dice, adder)
-
 
 	return count, dice, adder, nil
 }
