@@ -28,6 +28,7 @@ func (app *RollBot) HelpCommand(a ...string)( string, error ){
 }
 
 func (app *RollBot) RollCommand(args ...string)( string, error) {
+	fmt.Println(args)
 	if len(args) == 0 {
 		result, err := app.Generator.Roll(2, 6)
 		if err != nil {
