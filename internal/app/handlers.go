@@ -43,6 +43,12 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				result = err.Error()
 			}
+			user, err := rb.DB.GetUser(vkreq.Object.Message.FromID)
+			if err != nil {
+				result = err.Error()
+			} else {
+				result = user + "\n" + result
+			}
 			err = vkreq.SendResult(result, rb.Generator, rb.Config)
 		}
 	}

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/edkliff/rollbot/internal/generator"
+	"regexp"
 	"strings"
 )
 
@@ -25,14 +26,46 @@ func (app *RollBot) HelpCommand(a ...string)( string, error ){
     	"/help - просмотр этой подсказки.", nil
 }
 
-func (app *RollBot) RollCommand(a ...string)( string, error) {
+func (app *RollBot) RollCommand(args ...string)( string, error) {
+	if len(args) == 0 {
+		result, err := app.Generator.Roll(2, 6)
+		if err != nil {
+			return "", err
+		}
+		resultString := fmt.Sprintf("2d6: %d - %v", generator.Sum(result), result)
+		return resultString, nil
+	}
+	reasons := make([]string, 0, len(args))
+	for _, arg := range args {
+		if !isRoll(arg) {
+			reasons = append(reasons, arg)
+		}
+	}
+	reason := ""
+	for _, r := range reasons {
+		reason += " " + r
+	}
+	resultString := ""
+	if len(reason) > 0 {
+		resultString = reason + "\n"
+	}
+
 	result, err := app.Generator.Roll(2, 6)
 	if err != nil {
 		return "", err
 	}
-	resultString := fmt.Sprintf("2d6, результат: %d - %v", generator.Sum(result), result)
+	resultString += fmt.Sprintf("2d6: %d - %v", generator.Sum(result), result)
 	return resultString, nil
 }
+
+func isRoll(s string) bool {
+	 ok, err := regexp.Match("[0-9]*d[0-9]*\\+*[0-9]*", []byte(s))
+	 if err != nil {
+		return false
+	}
+	return ok
+}
+
 
 
 func (app *RollBot) ParseCommand(vkr *VKReq)(func(...string)(string, error), []string, error) {

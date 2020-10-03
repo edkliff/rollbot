@@ -1,5 +1,6 @@
 package storage
 import (
+	"errors"
 	"github.com/edkliff/rollbot/internal/config"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
@@ -29,12 +30,16 @@ func (s *SQLiteConnection)  CreateDB() error  {
 	return nil
 }
 
-func (s *SQLiteConnection) GetUser(username string) (string, bool) {
-	return s.Users.GetUser(username)
+func (s *SQLiteConnection) GetUser(userId int) (string, error) {
+	user, ok := s.Users.GetUser(userId)
+	if !ok {
+		return "", errors.New("unknown user")
+	}
+	return user, nil
 }
 
-func (s *SQLiteConnection) SetUser(username string, userID string) error {
-	 s.Users.SetUser(username, userID)
+func (s *SQLiteConnection) SetUser( userID int, username string) error {
+	 s.Users.SetUser(userID, username)
 	return nil
 }
 

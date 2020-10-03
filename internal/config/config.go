@@ -12,12 +12,6 @@ type Config struct {
 	LogLevel LogLevel `yaml:"loglevel"`
 	Language Lang     `yaml:"language"`
 
-	Dice struct {
-		Count int64 `yaml:"count"`
-		Dice  int64 `yaml:"dice"`
-		Adder int64 `yaml:"adder"`
-	} `yaml:"dice"`
-
 	VK struct {
 		ConfirmationResponse string `yaml:"confirmation_response"`
 		Token                string `yaml:"token"`

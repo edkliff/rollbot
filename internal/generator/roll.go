@@ -39,14 +39,14 @@ func (gen *Generator) Next() float64 {
 	return num
 }
 
-func (gen *Generator) Roll(count int64, dice int64) ([]int, error) {
+func (gen *Generator) Roll(count int64, dice int64) ([]int64, error) {
 	if count > 1000 || dice > 1000 {
-		return nil, errors.New("Я не буду выполнять эту команду. Простоо потому, что Малой - мудак.")
+		return nil, errors.New("Потому что Малой - мудак.")
 	}
-	results := make([]int, count)
+	results := make([]int64, count)
 	for i := 0; i < int(count); i++ {
 		a := gen.Random(0, dice)
-		results[i] = int(a)
+		results[i] = a
 	}
 	return results, nil
 }
@@ -58,8 +58,8 @@ func (gen *Generator) Random(min int64, max int64) int64 {
 	return result
 }
 
-func Sum(sl []int) int {
-	var sum int
+func Sum(sl []int64) int64 {
+	var sum int64
 	for _, e := range sl {
 		sum += e
 	}

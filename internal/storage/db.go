@@ -3,8 +3,8 @@ package storage
 import "github.com/edkliff/rollbot/internal/config"
 
 type Storage interface {
-	GetUser(string) (string, bool)
-	SetUser(string, string) error
+	GetUser(int) (string, error)
+	SetUser(int, string) error
 	LoadUsers() error
 }
 
