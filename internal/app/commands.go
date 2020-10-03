@@ -77,11 +77,12 @@ func GetReason(s string) ([]string, string, error) {
 	}
 	reasonb := rx.Find([]byte(s))
 	if reasonb == nil {
-		return make([]string, 0), "", nil
+		args := strings.Split(string(reasonb), " ")
+		return args, "", nil
 	}
 	reason := string(reasonb)
 	fmt.Println(reason)
-	withoutReason := strings.ReplaceAll(s, reason, " ")
+	withoutReason := strings.ReplaceAll(s, reason, "")
 	fmt.Println(withoutReason)
 	args := strings.Split(withoutReason, " ")
 	return args, reason, nil
@@ -96,7 +97,7 @@ func isRoll(s string) bool {
 }
 
 func ParseRoll(s string) (int64, int64, int64, error)  {
-	seq := "[0-9]*d[0-9]*\\+?[0-9]*)"
+	seq := "[0-9]*d[0-9]*\\+?[0-9]*"
 	rx, err := regexp.Compile(seq)
 	if err != nil {
 		return 0,0,0, err
