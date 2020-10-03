@@ -45,7 +45,7 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 			}
 			user, err := rb.DB.GetUser(vkreq.Object.Message.FromID)
 			if err != nil {
-				result = err.Error()
+				log.Println(err)
 			} else {
 				result = user + "\n" + result
 			}
