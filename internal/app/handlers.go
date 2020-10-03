@@ -28,7 +28,7 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 		}
 		return
 	}
-	err = vkreq.SendResult("Бот на обслуживании", rb.Generator, rb.Config)
+	err = vkreq.SendResult("Наелся и сплю", rb.Generator, rb.Config)
 	b := []byte("ok")
 	_, err = w.Write(b)
 	if err != nil {
