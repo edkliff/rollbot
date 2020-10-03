@@ -78,7 +78,7 @@ func GetReason(s string) ([]string, string, error) {
 		return make([]string, 0), "", nil
 	}
 	reason := string(reasonb)
-	withoutReason := strings.ReplaceAll(s,reason, "")
+	withoutReason := strings.ReplaceAll(s,reason, " ")
 	args := strings.Split(withoutReason, " ")
 	return args, reason, nil
 }
