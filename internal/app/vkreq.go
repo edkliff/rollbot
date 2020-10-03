@@ -48,15 +48,15 @@ func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Conf
 	params := make(map[string]string)
 	if vkr.Object.Message.PeerID > 2000000000 {
 		params["chat_id"] = strconv.Itoa(vkr.Object.Message.PeerID - 2000000000)
-	} else {
+	} else if {
 		params["reply_to"] = strconv.Itoa(vkr.Object.Message.ConversationMessageID)
+	} else if vkr.Object.Message.FromID > 0 {
+		params["user_id"] = strconv.Itoa(vkr.Object.Message.PeerID)
 	}
 	params["peer_id"] = strconv.Itoa(vkr.Object.Message.PeerID)
 	params["random_id"] = strconv.Itoa(int(gen.Random(9000000, 9999999)))
 	params["message"] = text
-	if vkr.Object.Message.FromID > 0 {
-		params["user_id"] = strconv.Itoa(vkr.Object.Message.PeerID)
-	}
+
 
 	_, err := SendWithParams(method, params, c)
 	if err != nil {
