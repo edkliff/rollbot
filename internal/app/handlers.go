@@ -28,13 +28,11 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 		}
 		return
 	}
-	go func() {
-		b := []byte("ok")
-		_, err = w.Write(b)
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	b := []byte("ok")
+	_, err = w.Write(b)
+	if err != nil {
+		log.Println(err)
+	}
 	if vkreq.Type == MessageNew {
 		if vkreq.IsCommand() {
 			fmt.Println(string(body))
