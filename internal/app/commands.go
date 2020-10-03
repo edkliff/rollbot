@@ -57,11 +57,12 @@ func (app *RollBot) RollCommand(args ...string)( string, error) {
 			resultString+=fmt.Sprintf("%dd%d+%d: %d - %v", count, dice, adder, sum, r)
 		}
 	}
-	if len(reason) > 0 {
-		resultString = reason + "\n"
-	}
+
 
 	resultString = fmt.Sprintf("Сумма: %d\n", finalSum) + resultString
+	if len(reason) > 0 {
+		resultString = reason + "\n"+ resultString
+	}
 	return resultString, nil
 }
 
