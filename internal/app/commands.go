@@ -54,7 +54,7 @@ func (app *RollBot) RollCommand(args ...string)( string, error) {
 			}
 			sum := generator.Sum(r) + adder
 			finalSum += sum
-			resultString+=fmt.Sprintf("%dd%d+%d: %d - %v", count, dice, adder, sum, r)
+			resultString+=fmt.Sprintf("%dd%d+%d: %d - %v\n", count, dice, adder, sum, r)
 		}
 	}
 
@@ -79,6 +79,7 @@ func GetReason(s string) ([]string, string, error) {
 	}
 	reason := string(reasonb)
 	withoutReason := strings.ReplaceAll(s, reason, "")
+	withoutReason = strings.TrimSpace(withoutReason)
 	args := strings.Split(withoutReason, " ")
 	return args, reason, nil
 }
