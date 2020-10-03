@@ -83,7 +83,7 @@ func GetReason(s string) ([]string, string, error) {
 }
 
 func isRoll(s string) bool {
-	 ok, err := regexp.Match("[0-9]*d[0-9]*\\+?[0-9]*", []byte(s))
+	 ok, err := regexp.Match("[0-9]*d?[0-9]*\\+?[0-9]*", []byte(s))
 	 if err != nil {
 		return false
 	}
@@ -91,7 +91,7 @@ func isRoll(s string) bool {
 }
 
 func ParseRoll(s string) (int64, int64, int64, error)  {
-	seq := "[0-9]*d[0-9]*\\+?[0-9]*"
+	seq := "[0-9]*d?[0-9]*\\+?[0-9]*"
 	rx, err := regexp.Compile(seq)
 	if err != nil {
 		return 0,0,0, err
