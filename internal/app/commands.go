@@ -69,6 +69,7 @@ func (app *RollBot) RollCommand(args ...string)( string, error) {
 }
 
 func GetReason(s string) ([]string, string, error) {
+	fmt.Println(s)
 	seq := "\\(.*\\)"
 	rx, err := regexp.Compile(seq)
 	if err != nil {
@@ -79,7 +80,9 @@ func GetReason(s string) ([]string, string, error) {
 		return make([]string, 0), "", nil
 	}
 	reason := string(reasonb)
-	withoutReason := strings.ReplaceAll(s,reason, " ")
+	fmt.Println(reason)
+	withoutReason := strings.ReplaceAll(s, reason, " ")
+	fmt.Println(withoutReason)
 	args := strings.Split(withoutReason, " ")
 	return args, reason, nil
 }
