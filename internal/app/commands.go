@@ -43,6 +43,7 @@ func (app *RollBot) RollCommand(args ...string)( string, error) {
 	resultString := ""
 	finalSum := int64(0)
 	for _, arg := range args {
+		fmt.Println(args)
 		if isRoll(arg) {
 			count, dice, adder, err := ParseRoll(arg)
 			if err != nil {
