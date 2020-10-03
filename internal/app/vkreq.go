@@ -50,6 +50,7 @@ func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Conf
 		params["peer_id"] = fmt.Sprintf("%d", vkr.Object.Message.PeerID)
 	}
 	params["message"] = text
+	params["reply_to"] = fmt.Sprintf("%d", vkr.Object.Message.ConversationMessageID)
 	response, err := SendWithParams("messages.send", params, c)
 	if err != nil {
 		return err
