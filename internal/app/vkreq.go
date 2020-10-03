@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"github.com/edkliff/rollbot/internal/config"
 	"github.com/edkliff/rollbot/internal/generator"
 	"io/ioutil"
@@ -69,5 +70,6 @@ func SendWithParams(method string, params map[string]string,  c config.Config) (
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(string(content))
 	return content, nil
 }
