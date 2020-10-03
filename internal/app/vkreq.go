@@ -28,6 +28,9 @@ type VKReq struct {
 }
 
 func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Config) error {
+	if vkr.Object.Text[0] != byte('/') {
+		return nil
+	}
 	method := "messages.send"
 	params := make(map[string]string)
 	if vkr.Object.PeerID > 2000000000 {
@@ -60,6 +63,8 @@ func SendWithParams(method string, params map[string]string,  c config.Config) (
 		query.Set(k, v)
 	}
 	address.RawQuery = query.Encode()
+	fmt.Println("------------------")
+	fmt.Println(address.RawQuery)
 	response, err := http.Get(address.String())
 	if err != nil {
 		return nil, err
@@ -71,5 +76,6 @@ func SendWithParams(method string, params map[string]string,  c config.Config) (
 		return nil, err
 	}
 	fmt.Println(string(content))
+	fmt.Println("------------------")
 	return content, nil
 }
