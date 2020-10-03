@@ -41,7 +41,7 @@ type VKReq struct {
 }
 
 func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Config) error {
-	if vkr.Object.Message.Text[0] != byte('/') {
+	if len(vkr.Object.Message.Text)>0 && vkr.Object.Message.Text[0] != byte('/') {
 		return nil
 	}
 	method := "messages.send"
