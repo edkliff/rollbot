@@ -50,6 +50,6 @@
 }
 
 th, td {
-    border-bottom: 1px solid antiquewhite;
-    margin: 2px 2px 2px 2px;
+    border: 1px solid antiquewhite;
+    margin: 5px 5px 5px 5px;
 }
