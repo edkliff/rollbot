@@ -37,7 +37,7 @@ func main() {
 	fs := http.Dir(imgs)
 	FileServer(mux, "/img", fs)
 
-	mux.With(middleware.SetHeader("Content-Type", "text/html")).Get("/", rollbot.Homepage)
+	mux.With(middleware.SetHeader("Content-Type", "text/html")).Get("/home", rollbot.Homepage)
 	mux.With(middleware.SetHeader("Content-Type", "text/json")).
 		Post("/vk", rollbot.VKHandle)
 	// mux.Get("/users", rollbot.GetUsers)
