@@ -9,7 +9,14 @@
 <section class="menu">
     <div class="features">
         <p><a href="/users">Пользователи</a></p>
-        <p><a href="/history">Логи<a></p>
+        <p><a href="/history">Логи</a></p>
+        <table class="content">
+            <tr><td>Дата</td><td>Имя пользователя</td><td>Команда</td><td>Результат</td</tr>
+            {{ range .Results }}
+                <tr><td>{{ .Date }}</td><td><a href="/history/{{.UserID}}">{{ .Username }}</a></td><td>{{ .Command }}</td><td>{{ .Result }}</td></tr>
+            {{end}}
+
+        </table>
     </div>
 </section>
 

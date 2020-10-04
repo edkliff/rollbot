@@ -115,7 +115,7 @@ func (s *SQLiteConnection) GetUsers() (*UsersList, error)  {
 		FROM users u 
 		LEFT OUTER JOIN logs l on l.user_id  = u.id
 		GROUP BY 	u.id, u.username
-		ORDER BY count(l.id)`
+		ORDER BY count(l.id) DESC `
 	rows, err := s.Database.Query(q)
 	if err != nil {
 		return nil, err
@@ -141,4 +141,45 @@ func (s *SQLiteConnection) WriteTask(original string, response string, user int)
 		return err
 	}
 	return nil
+}
+
+type Result struct {
+	UserID int
+	Username string
+	Command string
+	Result string
+	Date string
+}
+
+type ResultsList struct {
+	Results []Result
+}
+
+
+func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error)  {
+	results := make([]Result,0)
+	q := `SELECT u.username, u.id, l.command, l.result, l.date FROM logs l 
+			JOIN users u on l.user_id  = u.id `
+	if userid != 0 {
+		q += ` WHERE u.user = $1 `
+	}
+	q += `ORDER BY l.date DESC LIMIT 100`
+	rows, err := s.Database.Query(q)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		r := Result{}
+		d := int64(0)
+		err := rows.Scan(&r.Username, &r.UserID, &r.Command, &r.Result, &d)
+		if err != nil {
+			return nil, err
+		}
+		date := time.Unix(d, 0).String()
+		r.Date = date
+		results = append(results, r)
+	}
+	rl := ResultsList{Results:results}
+	return &rl, nil
 }

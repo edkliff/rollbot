@@ -42,8 +42,8 @@ func main() {
 	mux.With(middleware.SetHeader("Content-Type", "text/json")).
 		Post("/vk", rollbot.VKHandle)
 		mux.Get("/users", rollbot.GetUsers)
-	// mux.Get("/history", rollbot.GetHistory)
-	// mux.Get("/history/{userId}", rollbot.GetUserHistory)
+	mux.Get("/history", rollbot.GetHistory)
+	mux.Get("/history/{userId}", rollbot.GetUserHistory)
 
 	server := http.Server{
 		Handler: mux,

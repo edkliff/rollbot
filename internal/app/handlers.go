@@ -3,10 +3,12 @@ package app
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-chi/chi"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -99,6 +101,50 @@ func (rb *RollBot) GetUsers(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	users, err := rb.DB.GetUsers()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = tmpl.Execute(w, users)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+}
+
+
+func (rb *RollBot) GetHistory(w http.ResponseWriter, req *http.Request) {
+	tmpl, err := template.ParseFiles("templates/logs.html")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	users, err := rb.DB.GetLogs(0)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = tmpl.Execute(w, users)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+}
+
+
+func (rb *RollBot) GetUserHistory(w http.ResponseWriter, req *http.Request) {
+	tmpl, err := template.ParseFiles("templates/logs.html")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	userId :=  chi.URLParam(req, "userId")
+	uid, err := strconv.Atoi(userId)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	users, err := rb.DB.GetLogs(uid)
 	if err != nil {
 		log.Println(err)
 		return
