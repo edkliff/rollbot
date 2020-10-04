@@ -1,0 +1,40 @@
+#logo {
+    margin: 50px auto;
+    display: block;
+}
+@font-face {
+    font-family: Magic; /* Гарнитура шрифта */
+    src: url(/static/other/magic_cards_kollfin.ttf); /* Путь к файлу со шрифтом */
+}
+#smalltext {
+    margin: 50px auto;
+    display: block;
+    font-family: Magic, Arial;
+    color: bisque;
+    text-align: center;
+    width: 100%;
+}
+
+
+.features {
+    margin-bottom: 30px;
+    align-self: center;
+}
+
+.features p {
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+    margin: 0 5px;
+    background-repeat: no-repeat;
+    background-position: center top;
+    text-transform: uppercase;
+    font-family: Magic, Arial;
+    color: bisque;
+    text-align: center;
+}
+
+.menu {
+    width: 50%;
+    margin: 0 40%;
+}

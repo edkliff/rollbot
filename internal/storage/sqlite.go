@@ -47,7 +47,7 @@ func (s *SQLiteConnection) CreateDB() error {
 	}
 	_, err = s.Database.Exec(`CREATE TABLE IF NOT EXISTS logs (
     id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-    username int,
+    user_id int,
     command TEXT,
     result TEXT,
     date integer
@@ -95,4 +95,34 @@ func (s *SQLiteConnection) LoadUsers() error {
 
 func (s *SQLiteConnection) UsersList() string {
 	return fmt.Sprintf("%v", s.Users.users)
+}
+
+type User struct {
+	ID int
+	Username string
+	Count int
+}
+
+func (s *SQLiteConnection) GetUsers() ([]User, error)  {
+	users := make([]User,0)
+	q := `SELECT
+			u.id, u.name, count(l.id)
+		  FROM users u 
+		  JOIN logs l ON l.user_id = l.id
+		  GROUP BY u.id, u.name
+		  ORDER BY count(l.id)`
+	rows, err := s.Database.Query(q)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		u := User{}
+		err := rows.Scan(&u.ID, &u.Username, &u.Count)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, u)
+	}
+	return users, nil
 }

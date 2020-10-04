@@ -2,13 +2,19 @@ package app
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
 func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
+	start := time.Now()
+	defer func() {
+		log.Printf(fmt.Sprintf("request executed for %s", time.Since(start).String()))
+	}()
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		log.Println(err)
