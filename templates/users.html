@@ -10,14 +10,14 @@
     <div class="features">
         <p><a href="/users">Пользователи</a></p>
         <p><a href="/history">Логи</a></p>
-        <table class="content">
-            <tr><td>ID</td><td>Имя</td><td>Число команд</td></tr>
+    </div>
+    <table class="content">
+        <tr><td>ID</td><td>Имя</td><td>Число команд</td></tr>
         {{ range .Users }}
             <tr><td>{{ .ID }}</td><td><a href="/history/{{.ID}}">{{ .Username }}</a></td><td>{{ .Count }}</td></tr>
         {{end}}
 
-        </table>
-    </div>
+    </table>
 </section>
 <div id="smalltext"> Powered by SRMS devs, 2019 / Сделано крысанами в 2019 году</div>>
 </body>
