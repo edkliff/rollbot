@@ -160,11 +160,13 @@ func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error)  {
 	results := make([]Result,0)
 	q := `SELECT u.username, u.id, l.command, l.result, l.date FROM logs l 
 			JOIN users u on l.user_id  = u.id `
+	args := make([]interface{}, 0)
 	if userid != 0 {
 		q += ` WHERE u.id = $1 `
+		args = append(args, userid)
 	}
 	q += `ORDER BY l.date DESC LIMIT 100`
-	rows, err := s.Database.Query(q)
+	rows, err := s.Database.Query(q, args...)
 	if err != nil {
 		return nil, err
 	}
