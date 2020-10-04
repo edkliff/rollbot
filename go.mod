@@ -1,6 +1,6 @@
 module github.com/edkliff/rollbot
 
-go 1.14
+go 1.13
 
 require (
 	github.com/go-chi/chi v3.3.3+incompatible

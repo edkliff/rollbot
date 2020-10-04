@@ -52,6 +52,7 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 				if err != nil {
 					log.Println(err)
 				}
+				user = u
 			}
 				result = user + "\n" + result
 
