@@ -4,7 +4,6 @@ import (
 	"github.com/edkliff/rollbot/internal/config"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
-	"time"
 )
 type SQLiteConnection struct {
 	Database *sql.DB
