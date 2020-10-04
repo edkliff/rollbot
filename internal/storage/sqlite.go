@@ -4,6 +4,7 @@ import (
 	"github.com/edkliff/rollbot/internal/config"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
+	"time"
 )
 type SQLiteConnection struct {
 	Database *sql.DB
@@ -23,10 +24,35 @@ func ConnectSQLite(conf config.DBConfig) (*SQLiteConnection, error)  {
 		Database: db,
 		Users:    NewUserCache(),
 	}
+	err = sqlConn.CreateDB()
+	if err != nil {
+		return nil, err
+	}
+	err = sqlConn.LoadUsers()
+	if err != nil {
+		return nil, err
+	}
 	return &sqlConn, nil
 }
 
 func (s *SQLiteConnection)  CreateDB() error  {
+	_, err := s.Database.Exec(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY UNIQUE,
+    username TEXT
+)`)
+	if err != nil {
+		return err
+	}
+	_, err = s.Database.Exec(`CREATE TABLE IF NOT EXISTS logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+    username int,
+    command TEXT,
+    result TEXT,
+    date integer
+)`)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -38,11 +64,29 @@ func (s *SQLiteConnection) GetUser(userId int) (string, error) {
 	return user, nil
 }
 
-func (s *SQLiteConnection) SetUser( userID int, username string) error {
+func (s *SQLiteConnection) SetUser(userID int, username string) error {
 	 s.Users.SetUser(userID, username)
+	 _, err:= s.Database.Exec(`INSERT INTO users (id, username) VALUES ($1, $2)`, userID, username)
+	 if err != nil {
+	 	return err
+	 }
 	return nil
 }
 
 func (s *SQLiteConnection) LoadUsers() error {
+	rows, err := s.Database.Query(`SELECT id, username FROM users`)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		id := 0
+		name := ""
+		err := rows.Scan(&id, &name)
+		if err != nil {
+			return err
+		}
+		s.Users.SetUser(id, name)
+	}
 	return nil
 }

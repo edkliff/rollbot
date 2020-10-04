@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -94,4 +95,25 @@ func (vkr *VKReq) IsCommand() bool  {
 		return true
 	}
 	return false
+}
+
+func (rb *RollBot) FindUser(userId int) (string, error ) {
+		method := "users.get"
+		params := make(map[string]string)
+		params["user_ids"] = strconv.Itoa(userId)
+		response, err := SendWithParams(method, params, rb.Config)
+		if err != nil {
+			return "", err
+		}
+
+		fmt.Println(response)
+		// body := make(map[string]interface{})
+		// err = json.Unmarshal(response, &body)
+		// if err != nil {
+		// 	return "", err
+		// }
+		// r := body["response"].([]interface{})
+		// resp := r[0].(map[string]interface{})
+		// name = resp["first_name"].(string)
+	return "", nil
 }
