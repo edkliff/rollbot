@@ -38,3 +38,11 @@
     width: 50%;
     margin: 0 39%;
 }
+
+
+.content {
+    width: 50%;
+    font-family: Magic, Arial;
+    color: bisque;
+    text-align: center;
+}

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/edkliff/rollbot/internal/config"
 	_ "github.com/mattn/go-sqlite3"
+	"time"
 )
 
 type SQLiteConnection struct {
@@ -110,11 +111,11 @@ type UsersList struct {
 func (s *SQLiteConnection) GetUsers() (*UsersList, error)  {
 	users := make([]User,0)
 	q := `SELECT
-			u.id, u.username, count(l.id)
-		  FROM users u 
-		  JOIN logs l ON l.user_id = l.id
-		  GROUP BY u.id, u.username
-		  ORDER BY count(l.id)`
+		u.id, u.username, count(l.id)
+		FROM users u 
+		LEFT OUTER JOIN logs l on l.user_id  = u.id
+		GROUP BY 	u.id, u.username
+		ORDER BY count(l.id)`
 	rows, err := s.Database.Query(q)
 	if err != nil {
 		return nil, err
@@ -130,4 +131,14 @@ func (s *SQLiteConnection) GetUsers() (*UsersList, error)  {
 	}
 	l := UsersList{Users:users}
 	return &l, nil
+}
+
+func (s *SQLiteConnection) WriteTask(original string, response string, user int) error {
+	date := time.Now().Unix()
+	q := `INSERT INTO logs (user_id, command, result, date) VALUES ($1, $2, $3, $4)`
+	_, err := s.Database.Exec(q, user, original, response, date)
+	if err != nil {
+		return err
+	}
+	return nil
 }

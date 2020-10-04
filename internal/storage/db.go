@@ -8,6 +8,7 @@ type Storage interface {
 	LoadUsers() error
 	UsersList() string
 	GetUsers() (*UsersList, error)
+	WriteTask(string, string, int) error
 }
 
 const (

@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-	configFileName := flag.String("c", "c.yaml", "specify path to a c-example.yaml")
+	configFileName := flag.String("c", "config.yaml", "specify path to a c-example.yaml")
 	flag.Parse()
 
 	conf, err := config.LoadConfig(*configFileName)
