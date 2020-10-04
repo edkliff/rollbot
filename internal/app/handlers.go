@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -50,5 +51,23 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 			err = vkreq.SendResult(result, rb.Generator, rb.Config)
 		}
 	}
+
+}
+
+func (rb *RollBot) Homepage(w http.ResponseWriter, req *http.Request) {
+	tmpl, err := template.ParseFiles("templates/homepage.html")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = tmpl.Execute(w, nil)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+}
+
+
+func (rb *RollBot) StaticImg(w http.ResponseWriter, req *http.Request) {
 
 }

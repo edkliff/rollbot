@@ -9,8 +9,6 @@ import (
 
 type Config struct {
 	Server   string   `yaml:"server"`
-	LogLevel LogLevel `yaml:"loglevel"`
-	Language Lang     `yaml:"language"`
 
 	VK struct {
 		ConfirmationResponse string `yaml:"confirmation_response"`
