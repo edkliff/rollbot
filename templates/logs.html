@@ -6,18 +6,19 @@
     <title>МОЯRОШNД</title>
 </head>
 <body bgcolor="#101010" link="#ffe4c4" vlink="#ffebcd" alink="#faebd7">
-<div class="features">
-    <p><a href="/users">Пользователи</a></p>
-    <p><a href="/history">Логи</a></p>
-    <table class="content">
-        <tr><td>Дата</td><td>Имя пользователя</td><td>Команда</td><td>Результат</td></tr>
-        {{ range .Results }}
-            <tr><td>{{ .Date }}</td><td><a href="/history/{{.UserID}}">{{ .Username }}</a></td><td>{{ .Command }}</td><td>{{ .Result }}</td></tr>
-        {{end}}
+<section class="menu">
+    <div class="features">
+        <p><a href="/users">Пользователи</a></p>
+        <p><a href="/history">Логи</a></p>
+    </div>
+</section>
+<table class="content">
+    <tr><td>Дата</td><td>Имя пользователя</td><td>Команда</td><td>Результат</td></tr>
+    {{ range .Results }}
+        <tr><td>{{ .Date }}</td><td><a href="/history/{{.UserID}}">{{ .Username }}</a></td><td>{{ .Command }}</td><td>{{ .Result }}</td></tr>
+    {{end}}
 
-    </table>
-</div>
-
+</table>
 <div id="smalltext"> Powered by SRMS devs, 2019 / Сделано крысанами в 2019 году</div>>
 </body>
 </html>
