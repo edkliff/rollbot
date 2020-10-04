@@ -106,7 +106,7 @@ func (rb *RollBot) FindUser(userId int) (string, error ) {
 			return "", err
 		}
 
-		fmt.Println(response)
+		fmt.Println(string(response))
 		// body := make(map[string]interface{})
 		// err = json.Unmarshal(response, &body)
 		// if err != nil {

@@ -74,8 +74,3 @@ func (rb *RollBot) Homepage(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 }
-
-
-func (rb *RollBot) StaticImg(w http.ResponseWriter, req *http.Request) {
-
-}
