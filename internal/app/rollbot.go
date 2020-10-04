@@ -2,8 +2,8 @@ package app
 
 import (
 	"github.com/edkliff/rollbot/internal/config"
-	"github.com/edkliff/rollbot/internal/storage"
 	"github.com/edkliff/rollbot/internal/generator"
+	"github.com/edkliff/rollbot/internal/storage"
 )
 
 type RollBot struct {

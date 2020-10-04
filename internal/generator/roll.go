@@ -15,7 +15,7 @@ type Generator struct {
 	prevNumber int64
 }
 
-func  InitGenerator() *Generator {
+func InitGenerator() *Generator {
 	g := Generator{
 		m:          1000000,
 		a:          211021,
@@ -23,7 +23,7 @@ func  InitGenerator() *Generator {
 		prevNumber: time.Now().Unix(),
 	}
 	if g.prevNumber%2 == 0 {
-		g.prevNumber = g.prevNumber  + 1
+		g.prevNumber = g.prevNumber + 1
 	}
 	return &g
 }

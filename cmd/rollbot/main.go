@@ -29,12 +29,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println(store.UsersList())
 	rollbot := app.CreateRollBot(*conf, store)
 
 	mux := chi.NewRouter()
 
-	imgs := "./static"
-	fs := http.Dir(imgs)
+	static := "./static"
+	fs := http.Dir(static)
 	FileServer(mux, "/static", fs)
 
 	mux.With(middleware.SetHeader("Content-Type", "text/html")).Get("/", rollbot.Homepage)
@@ -43,7 +44,6 @@ func main() {
 	// mux.Get("/users", rollbot.GetUsers)
 	// mux.Get("/history", rollbot.GetHistory)
 	// mux.Get("/history/{userId}", rollbot.GetUserHistory)
-
 
 	server := http.Server{
 		Handler: mux,

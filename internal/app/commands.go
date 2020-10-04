@@ -18,16 +18,16 @@ const (
 	Help
 )
 
-func (app *RollBot) HelpCommand(a ...string)( string, error ){
+func (app *RollBot) HelpCommand(a ...string) (string, error) {
 	return "/roll XdY+Z XdY+Z ... XdY+Z REASON - бросок кубиков.\n" +
 		"X - количество, Y - число граней\n" +
 		"Z - дополнительный плюс к результату, REASON - описание броска\n" +
-		"Все параметры опциональны.\n"+
- 		"/create character - создать две пары аттрибутов для генерации персонажа\n"+
-    	"/help - просмотр этой подсказки.", nil
+		"Все параметры опциональны.\n" +
+		"/create character - создать две пары аттрибутов для генерации персонажа\n" +
+		"/help - просмотр этой подсказки.", nil
 }
 
-func (app *RollBot) RollCommand(args ...string)( string, error) {
+func (app *RollBot) RollCommand(args ...string) (string, error) {
 	if len(args) == 0 {
 		result, err := app.Generator.Roll(2, 6)
 		if err != nil {
@@ -54,14 +54,13 @@ func (app *RollBot) RollCommand(args ...string)( string, error) {
 			}
 			sum := generator.Sum(r) + adder
 			finalSum += sum
-			resultString+=fmt.Sprintf("%dd%d+%d: %d - %v\n", count, dice, adder, sum, r)
+			resultString += fmt.Sprintf("%dd%d+%d: %d - %v\n", count, dice, adder, sum, r)
 		}
 	}
 
-
 	resultString = fmt.Sprintf("Сумма: %d\n", finalSum) + resultString
 	if len(reason) > 0 {
-		resultString = reason + "\n"+ resultString
+		resultString = reason + "\n" + resultString
 	}
 	return resultString, nil
 }
@@ -85,55 +84,55 @@ func GetReason(s string) ([]string, string, error) {
 }
 
 func isRoll(s string) bool {
-	 ok, err := regexp.Match("[0-9]*d?[0-9]*\\+?[0-9]*", []byte(s))
-	 if err != nil {
+	ok, err := regexp.Match("[0-9]*d?[0-9]*\\+?[0-9]*", []byte(s))
+	if err != nil {
 		return false
 	}
 	return ok
 }
 
-func ParseRoll(s string) (int64, int64, int64, error)  {
+func ParseRoll(s string) (int64, int64, int64, error) {
 	seq := "[0-9]*d?[0-9]*\\+?[0-9]*"
 	rx, err := regexp.Compile(seq)
 	if err != nil {
-		return 0,0,0, err
+		return 0, 0, 0, err
 	}
 	sb := rx.Find([]byte(s))
 	if sb == nil {
-		return 0,0,0, errors.New("not finded")
+		return 0, 0, 0, errors.New("not finded")
 	}
 	s = string(sb)
 	s = strings.ReplaceAll(s, "+", " ")
 	s = strings.ReplaceAll(s, "d", " ")
 	args := strings.Split(s, " ")
 	count, dice, adder := int64(1), int64(6), int64(0)
-	if len(args) >=1 {
+	if len(args) >= 1 {
 		counts := args[0]
 		counti, err := strconv.Atoi(counts)
 		if err != nil && counts != "" {
-			return 0,0,0, errors.New("Малой - мудак")
+			return 0, 0, 0, errors.New("Малой - мудак")
 		}
 		if counts == "" {
 			counti = 1
 		}
 		count = int64(counti)
 	}
-	if len(args)  >=2{
+	if len(args) >= 2 {
 		dices := args[1]
 		decei, err := strconv.Atoi(dices)
 		if err != nil {
-			return 0,0,0, errors.New("Малой - мудак")
+			return 0, 0, 0, errors.New("Малой - мудак")
 		}
 		if dices == "" {
 			decei = 6
 		}
 		dice = int64(decei)
 	}
-	if len(args) >=3 {
+	if len(args) >= 3 {
 		adders := args[2]
 		adderi, err := strconv.Atoi(adders)
 		if err != nil {
-			return 0,0,0, errors.New("Малой - мудак")
+			return 0, 0, 0, errors.New("Малой - мудак")
 		}
 		adder = int64(adderi)
 	}
@@ -141,7 +140,7 @@ func ParseRoll(s string) (int64, int64, int64, error)  {
 	return count, dice, adder, nil
 }
 
-func (app *RollBot) ParseCommand(vkr *VKReq)(func(...string)(string, error), []string, error) {
+func (app *RollBot) ParseCommand(vkr *VKReq) (func(...string) (string, error), []string, error) {
 	vkr.Object.Message.Text = strings.TrimSpace(strings.ToLower(vkr.Object.Message.Text))
 	argsList := strings.Split(vkr.Object.Message.Text, " ")
 	if len(argsList) > 0 {

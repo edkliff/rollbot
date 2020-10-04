@@ -38,7 +38,7 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 	if vkreq.Type == MessageNew {
 		if vkreq.IsCommand() {
 			command, params, err := rb.ParseCommand(vkreq)
-			if err!= nil {
+			if err != nil {
 				log.Println(err)
 				return
 			}
@@ -53,8 +53,14 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 					log.Println(err)
 				}
 				user = u
+				if err == nil {
+					err := rb.DB.SetUser(vkreq.Object.Message.FromID, user)
+					if err != nil {
+						log.Println(err)
+					}
+				}
 			}
-				result = user + "\n" + result
+			result = user + "\n" + result
 
 			err = vkreq.SendResult(result, rb.Generator, rb.Config)
 		}

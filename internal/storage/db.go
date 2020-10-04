@@ -6,12 +6,14 @@ type Storage interface {
 	GetUser(int) (string, error)
 	SetUser(int, string) error
 	LoadUsers() error
+	UsersList() string
 }
 
 const (
-	sqlite  = "sqlite"
-	file = "file"
+	sqlite = "sqlite"
+	file   = "file"
 )
+
 func CreateStorage(conf config.Config) (Storage, error) {
 	switch conf.DB.Kind {
 	case sqlite:

@@ -1,19 +1,22 @@
 package storage
+
 import (
-	"errors"
-	"github.com/edkliff/rollbot/internal/config"
 	"database/sql"
+	"errors"
+	"fmt"
+	"github.com/edkliff/rollbot/internal/config"
 	_ "github.com/mattn/go-sqlite3"
 )
+
 type SQLiteConnection struct {
 	Database *sql.DB
-	Users UserCache
+	Users    UserCache
 }
 
-func ConnectSQLite(conf config.DBConfig) (*SQLiteConnection, error)  {
+func ConnectSQLite(conf config.DBConfig) (*SQLiteConnection, error) {
 	dbfile := "rollbot.db"
 	if conf.Filename != "" {
-		dbfile =  conf.Filename
+		dbfile = conf.Filename
 	}
 	db, err := sql.Open("sqlite3", dbfile)
 	if err != nil {
@@ -34,7 +37,7 @@ func ConnectSQLite(conf config.DBConfig) (*SQLiteConnection, error)  {
 	return &sqlConn, nil
 }
 
-func (s *SQLiteConnection)  CreateDB() error  {
+func (s *SQLiteConnection) CreateDB() error {
 	_, err := s.Database.Exec(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY UNIQUE,
     username TEXT
@@ -64,11 +67,11 @@ func (s *SQLiteConnection) GetUser(userId int) (string, error) {
 }
 
 func (s *SQLiteConnection) SetUser(userID int, username string) error {
-	 s.Users.SetUser(userID, username)
-	 _, err:= s.Database.Exec(`INSERT INTO users (id, username) VALUES ($1, $2)`, userID, username)
-	 if err != nil {
-	 	return err
-	 }
+	s.Users.SetUser(userID, username)
+	_, err := s.Database.Exec(`INSERT INTO users (id, username) VALUES ($1, $2)`, userID, username)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -88,4 +91,8 @@ func (s *SQLiteConnection) LoadUsers() error {
 		s.Users.SetUser(id, name)
 	}
 	return nil
+}
+
+func (s *SQLiteConnection) UsersList() string {
+	return fmt.Sprintf("%v", s.Users.users)
 }
