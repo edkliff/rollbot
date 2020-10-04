@@ -13,9 +13,9 @@
     </div>
 </section>
 <table class="content">
-    <tr><td>ID</td><td>Имя</td><td>Число команд</td></tr>
+    <tr class="content"><td>ID</td><td>Имя</td><td>Число команд</td></tr>
     {{ range .Users }}
-        <tr><td>{{ .ID }}</td><td><a href="/history/{{.ID}}">{{ .Username }}</a></td><td>{{ .Count }}</td></tr>
+        <tr class="content"><td>{{ .ID }}</td><td><a href="/history/{{.ID}}">{{ .Username }}</a></td><td>{{ .Count }}</td></tr>
     {{end}}
 
 </table>
