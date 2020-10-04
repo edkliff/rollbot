@@ -33,9 +33,9 @@ func main() {
 
 	mux := chi.NewRouter()
 
-	imgs := "./img"
+	imgs := "./static"
 	fs := http.Dir(imgs)
-	FileServer(mux, "/img", fs)
+	FileServer(mux, "/static", fs)
 
 	mux.With(middleware.SetHeader("Content-Type", "text/html")).Get("/", rollbot.Homepage)
 	mux.With(middleware.SetHeader("Content-Type", "text/json")).

@@ -8,11 +8,23 @@
             display: block;
             width: 100%;
         }
-
+        @font-face {
+            font-family: Magic; /* Гарнитура шрифта */
+            src: url(/static/other/magic_cards_kollfin.ttf); /* Путь к файлу со шрифтом */
+        }
+        #smalltext {
+            margin: 50px auto;
+            display: block;
+            font-family: Magic, Arial;
+            color: bisque;
+            text-align: center;
+            width: 100%;
+        }
     </style>
     <title>МОЯRОШNД</title>
 </head>
-<body bgcolor="black">
-    <img src="/img/jiub.jpg" alt="ROLLBOT" id="logo">
+<body bgcolor="#050505">
+    <img src="/static/img/jiub.jpg" alt="ROLLBOT" id="logo">
+    <div id="smalltext"> Powered by SRMS devs, 2019 / Сделано крысанами в 2019 году</div>>
 </body>
 </html>
