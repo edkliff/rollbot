@@ -8,19 +8,20 @@ import (
 )
 
 type Config struct {
-	Server   string   `yaml:"server"`
+	Server string `yaml:"server"`
 
 	VK struct {
 		ConfirmationResponse string `yaml:"confirmation_response"`
 		Token                string `yaml:"token"`
 		VKServer             string `yaml:"vkserver"`
 		APIVersion           string `yaml:"apiversion"`
+		Secret               string `yaml:"secret"`
 	} `yaml:"vk"`
 
 	DB DBConfig `yaml:"storage"`
 }
 
-func  LoadConfig(filename string) (*Config, error) {
+func LoadConfig(filename string) (*Config, error) {
 	c := Config{}
 	configFile, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -34,7 +35,7 @@ func  LoadConfig(filename string) (*Config, error) {
 }
 
 type DBConfig struct {
-	Kind string `yaml:"kind"`
+	Kind     string `yaml:"kind"`
 	Filename string `yaml:"filename"`
 }
 
@@ -48,7 +49,7 @@ const (
 func (ll *LogLevel) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	s := ""
 	err := unmarshal(&s)
-	if err !=nil {
+	if err != nil {
 		return err
 	}
 	s = strings.Replace(s, "\"", "", -1)

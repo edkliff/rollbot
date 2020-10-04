@@ -18,12 +18,12 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	if vkreq.Secret != rb.Config.VK.ConfirmationResponse {
+	if vkreq.Secret != rb.Config.VK.Secret {
 		log.Println("Unknown service")
 		return
 	}
 	if vkreq.Type == Confirm {
-		b := []byte("61543fb6")
+		b := []byte(rb.Config.VK.ConfirmationResponse)
 		_, err = w.Write(b)
 		if err != nil {
 			log.Println(err)
