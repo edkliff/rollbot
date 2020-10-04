@@ -11,10 +11,6 @@ import (
 )
 
 func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
-	start := time.Now()
-	defer func() {
-		log.Printf(fmt.Sprintf("request executed for %s", time.Since(start).String()))
-	}()
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		log.Println(err)
@@ -42,6 +38,10 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 	}
 	if vkreq.Type == MessageNew {
+		start := time.Now()
+		defer func() {
+			log.Printf(fmt.Sprintf("request executed for %s", time.Since(start).String()))
+		}()
 		if vkreq.IsCommand() {
 			command, params, err := rb.ParseCommand(vkreq)
 			if err != nil {
@@ -81,6 +81,24 @@ func (rb *RollBot) Homepage(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	err = tmpl.Execute(w, nil)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+}
+
+func (rb *RollBot) GetUsers(w http.ResponseWriter, req *http.Request) {
+	tmpl, err := template.ParseFiles("templates/users.html")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	users, err := rb.DB.GetUsers()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = tmpl.Execute(w, users)
 	if err != nil {
 		log.Println(err)
 		return

@@ -7,6 +7,7 @@ type Storage interface {
 	SetUser(int, string) error
 	LoadUsers() error
 	UsersList() string
+	GetUsers() (*UsersList, error)
 }
 
 const (

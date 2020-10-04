@@ -9,7 +9,11 @@
 <section class="menu">
     <div class="features">
         <p><a href="/users">Пользователи</a></p>
-        <p><a href="/history">Логи<a></p>
+        <p><a href="/history">Логи</a></p>
+
+        {{ range .Users }}
+            <div>{{ .ID }} {{.Username }} {{.Count}}</div>
+        {{end}}
     </div>
 </section>
 <div id="smalltext"> Powered by SRMS devs, 2019 / Сделано крысанами в 2019 году</div>>

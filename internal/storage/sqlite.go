@@ -103,13 +103,17 @@ type User struct {
 	Count int
 }
 
-func (s *SQLiteConnection) GetUsers() ([]User, error)  {
+type UsersList struct {
+	Users []User
+}
+
+func (s *SQLiteConnection) GetUsers() (*UsersList, error)  {
 	users := make([]User,0)
 	q := `SELECT
-			u.id, u.name, count(l.id)
+			u.id, u.username, count(l.id)
 		  FROM users u 
 		  JOIN logs l ON l.user_id = l.id
-		  GROUP BY u.id, u.name
+		  GROUP BY u.id, u.username
 		  ORDER BY count(l.id)`
 	rows, err := s.Database.Query(q)
 	if err != nil {
@@ -124,5 +128,6 @@ func (s *SQLiteConnection) GetUsers() ([]User, error)  {
 		}
 		users = append(users, u)
 	}
-	return users, nil
+	l := UsersList{Users:users}
+	return &l, nil
 }
