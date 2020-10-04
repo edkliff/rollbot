@@ -40,12 +40,16 @@
 }
 
 
-.content {
+.content  {
     width: 90%;
     font-family: Magic, Arial;
     color: bisque;
     text-align: center;
     border-bottom: 1px solid antiquewhite;
     margin: 2px 2px 2px 2px;
+}
 
+th, td {
+    border-bottom: 1px solid antiquewhite;
+    margin: 2px 2px 2px 2px;
 }
