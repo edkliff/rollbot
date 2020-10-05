@@ -18,6 +18,16 @@ th, td {
     width: 70%;
 }
 
+
+.all-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 5px 25px 5px 25px;
+    flex-wrap: wrap;
+    width: 70%;
+}
+
 .menu-button-big {
     color: burlywood;
     font-family: Magic, Arial, serif;
@@ -30,8 +40,7 @@ th, td {
 }
 
 .smalltext-magic {
-    position: absolute;
-    bottom: 20px;
+    margin-top: 30px;
     font-family: Magic, Arial, serif;
     color: burlywood;
     width: 100%;
