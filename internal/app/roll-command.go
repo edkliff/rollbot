@@ -42,6 +42,9 @@ func (app *RollBot) RollCommand(vk VKReq) (Resulter, error) {
 		args = append(args, "1d6+0")
 	}
 	for _, arg := range args {
+		if strings.ToLower(arg) == "малой" {
+			return app.RollMaloi(vk)
+		}
 		count, dice, adder, isCommand := ParseRoll(arg)
 		if !isCommand {
 			continue
@@ -126,7 +129,7 @@ func SplitRoll(s string) (int64, int64, int64)  {
 
 func (r *RollResult) VKString() string {
 	if len(r.results) == 0 {
-		return "Не удалось распарсить ни один из аргументов. Введите в формате XXXdYYY+ZZZ"
+		return "Не удалось распарсить ни один из аргументов. Введите в формате XXdYY+ZZ"
 	}
 	s := fmt.Sprintf("Общая сумма: %d\nПодробно:\n", r.finalSum)
 	if r.comment != "" {
