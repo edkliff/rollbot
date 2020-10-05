@@ -136,7 +136,7 @@ func (s *SQLiteConnection) GetUsers() (*UsersList, error)  {
 
 func (s *SQLiteConnection) WriteTask(original, response, comment string, user int) error {
 	date := time.Now().Unix()
-	q := `INSERT INTO logs (user_id, command, result, comment, date) VALUES ($1, $2, $3, $4)`
+	q := `INSERT INTO logs (user_id, command, result, comment, date) VALUES ($1, $2, $3, $4, $5)`
 	_, err := s.Database.Exec(q, user, original, response, comment, date)
 	if err != nil {
 		return err
