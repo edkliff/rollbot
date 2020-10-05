@@ -20,6 +20,7 @@ th, td {
 
 .menu-button-big {
     color: burlywood;
+    font-family: Magic, Arial, serif;
     font-size: 24px;
 }
 
@@ -29,6 +30,8 @@ th, td {
 }
 
 .smalltext-magic {
+    position: absolute;
+    bottom: 20px;
     font-family: Magic, Arial, serif;
     color: burlywood;
     width: 100%;
@@ -47,5 +50,9 @@ th, td {
     margin: 2px 2px 2px 2px;
     font-size: 20px;
     border-radius: 7px;
+}
+
+.bold-text {
+    font-weight: bold;
 }
 
