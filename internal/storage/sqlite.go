@@ -178,7 +178,14 @@ func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error)  {
 		if err != nil {
 			return nil, err
 		}
-		date := time.Unix(d, 0).String()
+		loc, err := time.LoadLocation("Europe/Moscow")
+		if err != nil {
+			return nil, err
+		}
+		dateObj := time.Unix(d, 0).In(loc)
+		date := fmt.Sprintf("%d:%d:%dMSK  %d/%d/%d",
+			dateObj.Hour(), dateObj.Minute(), dateObj.Second(),
+			dateObj.Day(), dateObj.Month(), dateObj.Year())
 		r.Date = date
 		results = append(results, r)
 	}
