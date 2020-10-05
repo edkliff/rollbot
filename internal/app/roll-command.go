@@ -149,7 +149,7 @@ func (r *RollResult) Comment() string  {
 
 func (r *RollResult) HTML() string {
 	if len(r.results) == 0 {
-		return "Не удалось распарсить ни один из аргументов. Введите в формате XXXdYYY+ZZZ"
+		return "Не удалось распарсить ни один из аргументов. Введите в формате XXdYY+ZZ"
 	}
 	s := fmt.Sprintf("<div>Сумма: %d</div>", r.finalSum)
 	for _, res := range r.results{

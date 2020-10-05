@@ -40,6 +40,8 @@ func (app *RollBot) ParseCommand(vkr *VKReq) (func(VKReq) (Resulter, error), err
 			return app.RollCommand,  nil
 		case "/help":
 			return app.HelpCommand, nil
+		case "/create":
+			return app.CreateCommand, nil
 		}
 	}
 	return app.HelpCommand, nil

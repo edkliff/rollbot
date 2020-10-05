@@ -3,6 +3,7 @@ package generator
 import (
 	"errors"
 	"math"
+	"sort"
 	"sync"
 	"time"
 )
@@ -40,7 +41,7 @@ func (gen *Generator) Next() float64 {
 }
 
 func (gen *Generator) Roll(count int64, dice int64) ([]int64, error) {
-	if count > 1000 || dice > 1000 || count < 1 || dice < 1 {
+	if count > 900 || dice > 900 || count < 1 || dice < 1 {
 		return nil, errors.New("Это мы считать не будем потому, что Малой - мудак.")
 	}
 	results := make([]int64, count)
@@ -64,4 +65,11 @@ func Sum(sl []int64) int64 {
 		sum += e
 	}
 	return sum
+}
+
+func Sort(sl []int64) []int64  {
+	sorted := make([]int64, len(sl))
+	copy(sorted, sl)
+	sort.Slice(sorted,func(i, j int) bool { return sorted[i] > sorted[j] })
+	return sorted
 }
