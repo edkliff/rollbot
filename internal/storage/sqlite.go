@@ -183,7 +183,7 @@ func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error)  {
 			return nil, err
 		}
 		dateObj := time.Unix(d, 0).In(loc)
-		date := fmt.Sprintf("%d:%d:%dMSK  %d/%d/%d",
+		date := fmt.Sprintf("%2d:%2d:%2dMSK  %2d/%2d/%d",
 			dateObj.Hour(), dateObj.Minute(), dateObj.Second(),
 			dateObj.Day(), dateObj.Month(), dateObj.Year())
 		r.Date = date
