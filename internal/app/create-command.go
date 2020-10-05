@@ -105,8 +105,5 @@ func (h *CreateResult) HTML() string {
 	for _, v := range h.set2 {
 		s += fmt.Sprintf("<div>%d : %v</div>", v.sum, v.roll)
 	}
-	if h.reason != "" {
-		s = fmt.Sprintf("<div>%s</div><br>%s", h.reason, s)
-	}
 	return s
 }
