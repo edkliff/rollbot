@@ -49,6 +49,6 @@ func (h *RollResult) Comment() string  {
 }
 
 func (h *RollResult) HTML() string {
-	s := ""
-	return "<div>" + s + "</div>"
+	s := "aaaa, aaa\naaaa,aaaaaa"
+	return  s
 }
