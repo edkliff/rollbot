@@ -60,6 +60,7 @@ func (app *RollBot) RollCommand(vk *VKReq) (Resulter, error) {
 	for _, v := range rr.results {
 		rr.finalSum += v.sum
 	}
+	fmt.Println(rr)
 	return &rr, nil
 }
 
@@ -123,6 +124,7 @@ func SplitRoll(s string) (int64, int64, int64)  {
 }
 
 func (r *RollResult) String() string {
+	fmt.Println("стринг", r)
 	if len(r.results) == 0 {
 		return "Не удалось распарсить ни один из аргументов. Введите в формате XXXdYYY+ZZZ"
 	}
