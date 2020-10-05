@@ -13,6 +13,7 @@ func (app *RollBot) HelpCommand(vk VKReq) (Resulter, error) {
 		"X - количество, Y - число граней\n",
 		"Z - дополнительный плюс к результату, REASON - описание броска\n",
 		"Все параметры опциональны.\n",
+		"/create - создать две пары характеристик для DnD или Pathfinder\n",
 		"/help - просмотр этой подсказки.",
 	}
 	comment, err := GetReason(vk.Object.Message.Text)
