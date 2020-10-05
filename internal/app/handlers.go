@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-chi/chi"
-	"html/template"
+	"text/template"
 	"io/ioutil"
 	"log"
 	"net/http"
