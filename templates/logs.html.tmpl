@@ -1,0 +1,22 @@
+{{ template "base" .}}
+
+{{ define "main" }}
+    <table class="content">
+        <tr>
+            <td>Дата</td>
+            <td>Имя</td>
+            <td>Команда</td>
+            <td>Результат</td>
+        </tr>
+        {{ range .Results }}
+            <tr>
+                <td>{{ .Date }}</td>
+                <td>
+                    <a href="/history/{{.UserID}}">{{ .Username }}</a>
+                </td>
+                <td>{{ .Command }}</td>
+                <td>{{ .Result }}</td>
+            </tr>
+        {{ end }}
+    </table>
+{{ end }}

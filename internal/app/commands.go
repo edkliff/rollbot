@@ -137,6 +137,7 @@ func ParseRoll(s string) (int64, int64, int64, error) {
 		adder = int64(adderi)
 	}
 
+
 	return count, dice, adder, nil
 }
 

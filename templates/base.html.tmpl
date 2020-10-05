@@ -1,0 +1,30 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <title>МОЯRОШNД</title>
+    </head>
+    <body bgcolor="#101010" link="burlywood" vlink="burlywood" alink="burlywood">
+    <center>
+        <div class="menu-buttons">
+            <div>
+                <a href="/"><img src="/static/img/jiub.png" class="menu-button-big-creature"></a>
+            </div>
+            <div class="menu-button-big">
+                <a href="/users">Пользователи</a>
+            </div>
+            <div class="menu-button-big">
+                <a href="/users">История</a>
+            </div>
+        </div>
+        <div>
+            {{template "main" .}}
+        </div>
+
+        <div class="smalltext-magic"> Powered by SRMS devs, 2019 / Сделано крысанами в 2019 году</div>
+    </center>
+    </body>
+</html>
+{{end}}

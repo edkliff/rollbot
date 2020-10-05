@@ -82,7 +82,7 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 }
 
 func (rb *RollBot) Homepage(w http.ResponseWriter, req *http.Request) {
-	tmpl, err := template.ParseFiles("templates/homepage.html")
+	tmpl, err := template.ParseFiles( "templates/homepage.html.tmpl","templates/base.html.tmpl")
 	if err != nil {
 		log.Println(err)
 		return
@@ -95,7 +95,7 @@ func (rb *RollBot) Homepage(w http.ResponseWriter, req *http.Request) {
 }
 
 func (rb *RollBot) GetUsers(w http.ResponseWriter, req *http.Request) {
-	tmpl, err := template.ParseFiles("templates/users.html")
+	tmpl, err := template.ParseFiles("templates/users.html.tmpl", "templates/base.html.tmpl")
 	if err != nil {
 		log.Println(err)
 		return
@@ -114,7 +114,7 @@ func (rb *RollBot) GetUsers(w http.ResponseWriter, req *http.Request) {
 
 
 func (rb *RollBot) GetHistory(w http.ResponseWriter, req *http.Request) {
-	tmpl, err := template.ParseFiles("templates/logs.html")
+	tmpl, err := template.ParseFiles("templates/base.html.tmpl", "templates/logs.html.tmpl")
 	if err != nil {
 		log.Println(err)
 		return
@@ -133,7 +133,7 @@ func (rb *RollBot) GetHistory(w http.ResponseWriter, req *http.Request) {
 
 
 func (rb *RollBot) GetUserHistory(w http.ResponseWriter, req *http.Request) {
-	tmpl, err := template.ParseFiles("templates/logs.html")
+	tmpl, err := template.ParseFiles("templates/logs.html.tmpl", "templates/base.html.tmpl" )
 	if err != nil {
 		log.Println(err)
 		return

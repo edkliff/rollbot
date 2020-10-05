@@ -1,55 +1,51 @@
-#logo {
-    margin: 50px auto;
-    display: block;
-}
 @font-face {
-    font-family: Magic; /* Гарнитура шрифта */
-    src: url(/static/other/magic_cards_kollfin.ttf); /* Путь к файлу со шрифтом */
-}
-#smalltext {
-    margin: 50px auto;
-    display: block;
-    font-family: Magic, Arial;
-    color: bisque;
-    text-align: center;
-    width: 100%;
-}
-
-
-.features {
-    margin-bottom: 30px;
-    align-self: center;
-}
-
-.features p {
-    display: inline-block;
-    vertical-align: top;
-    width: 20%;
-    margin: 0 15px 0 15px;
-    background-repeat: no-repeat;
-    background-position: center top;
-    text-transform: uppercase;
-    font-family: Magic, Arial;
-    color: bisque;
-    text-align: center;
-}
-
-.menu {
-    width: 50%;
-    margin: 0 39%;
-}
-
-
-.content  {
-    width: 100%;
-    font-family: Magic, Arial;
-    color: bisque;
-    text-align: center;
-    border-bottom: 1px solid antiquewhite;
-    margin: 2px 2px 2px 2px;
+    font-family: Magic;
+    src: url(/static/other/magic_cards_kollfin.ttf);
 }
 
 th, td {
-    border: 1px solid antiquewhite;
+    border: 1px solid burlywood;
     padding: 5px;
+    border-radius: 5px;
 }
+
+.menu-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 5px 25px 5px 25px;
+    flex-wrap: wrap;
+    width: 70%;
+}
+
+.menu-button-big {
+    color: burlywood;
+    font-size: 24px;
+}
+
+
+.menu-button-big-creature {
+    width: 40px;
+}
+
+.smalltext-magic {
+    font-family: Magic, Arial, serif;
+    color: burlywood;
+    width: 100%;
+}
+
+.smalltext {
+    color: burlywood;
+    width: 100%;
+}
+
+.content  {
+    width: 90%;
+    color: burlywood;
+    text-align: center;
+    border: 1px solid peachpuff;
+    margin: 2px 2px 2px 2px;
+    font-size: 20px;
+    border-radius: 7px;
+}
+
