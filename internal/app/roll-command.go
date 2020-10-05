@@ -34,6 +34,7 @@ func (app *RollBot) RollCommand(vk *VKReq) (Resulter, error) {
 	rr := RollResult{
 		results: make([]rollResultSet, 0),
 		comment: reason,
+		finalSum: 0,
 	}
 	fmt.Println(args)
 	if len(args) <2 {
@@ -60,7 +61,7 @@ func (app *RollBot) RollCommand(vk *VKReq) (Resulter, error) {
 	for _, v := range rr.results {
 		rr.finalSum += v.sum
 	}
-	fmt.Println(rr)
+	fmt.Println(&rr)
 	return &rr, nil
 }
 
