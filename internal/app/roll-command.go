@@ -107,7 +107,10 @@ func ParseRoll(s string) (int64, int64, int64, bool) {
 func SplitRoll(s string) (int64, int64, int64)  {
 	fst := strings.Split(s, "+")
 	sst := strings.Split(fst[0], "d")
-	count := 0
+	count, err := strconv.Atoi(sst[0])
+	if err!= nil {
+		return 0,0,0
+	}
 	dice, err := strconv.Atoi(sst[1])
 	if err!= nil {
 		return 0,0,0
