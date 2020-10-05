@@ -1,10 +1,8 @@
 package app
 
 import (
-	"errors"
 	"fmt"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
@@ -61,54 +59,4 @@ func GetReason(s string) (string, error) {
 	}
 	reason := string(reasonb)
 	return reason, nil
-}
-
-func ParseRoll(s string) (int64, int64, int64, error) {
-	seq := "[0-9]*d?[0-9]*\\+?[0-9]*"
-	rx, err := regexp.Compile(seq)
-	if err != nil {
-		return 0, 0, 0, err
-	}
-	sb := rx.Find([]byte(s))
-	if sb == nil {
-		return 0, 0, 0, errors.New("not finded")
-	}
-	s = string(sb)
-	s = strings.ReplaceAll(s, "+", " ")
-	s = strings.ReplaceAll(s, "d", " ")
-	args := strings.Split(s, " ")
-	count, dice, adder := int64(1), int64(6), int64(0)
-	if len(args) >= 1 {
-		counts := args[0]
-		counti, err := strconv.Atoi(counts)
-		if err != nil && counts != "" {
-			return 0, 0, 0, errors.New("Малой - мудак")
-		}
-		if counts == "" {
-			counti = 1
-		}
-		count = int64(counti)
-	}
-	if len(args) >= 2 {
-		dices := args[1]
-		decei, err := strconv.Atoi(dices)
-		if err != nil {
-			return 0, 0, 0, errors.New("Малой - мудак")
-		}
-		if dices == "" {
-			decei = 6
-		}
-		dice = int64(decei)
-	}
-	if len(args) >= 3 {
-		adders := args[2]
-		adderi, err := strconv.Atoi(adders)
-		if err != nil {
-			return 0, 0, 0, errors.New("Малой - мудак")
-		}
-		adder = int64(adderi)
-	}
-
-
-	return count, dice, adder, nil
 }
