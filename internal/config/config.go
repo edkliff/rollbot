@@ -77,7 +77,10 @@ const (
 
 func (ll *Lang) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	s := ""
-	unmarshal(&s)
+	err := unmarshal(&s)
+	if err != nil {
+		return err
+	}
 	s = strings.Replace(s, "\"", "", -1)
 	s = strings.ToLower(s)
 	switch s {

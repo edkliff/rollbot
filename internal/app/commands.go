@@ -32,10 +32,10 @@ func (h *ErrorResult) HTML() string {
 }
 
 func (app *RollBot) ParseCommand(vkr *VKReq) (func(VKReq) (Resulter, error), error) {
-	vkr.Object.Message.Text = strings.TrimSpace(strings.ToLower(vkr.Object.Message.Text))
+	vkr.Object.Message.Text = strings.TrimSpace(vkr.Object.Message.Text)
 	argsList := strings.Split(vkr.Object.Message.Text, " ")
 	if len(argsList) > 0 {
-		switch argsList[0] {
+		switch strings.ToLower(argsList[0]) {
 		case "/roll":
 			return app.RollCommand,  nil
 		case "/help":

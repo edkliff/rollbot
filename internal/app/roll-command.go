@@ -69,6 +69,7 @@ func (app *RollBot) RollCommand(vk VKReq) (Resulter, error) {
 }
 
 func ParseRoll(s string) (int64, int64, int64, bool) {
+	s = strings.ToLower(s)
 	ok, err := regexp.Match("^\\d{1,3}d\\d{1,3}[+]\\d{1,3}$", []byte(s))
 	if err != nil {
 		return 0,0,0, false
