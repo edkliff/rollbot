@@ -7,7 +7,7 @@ type HelpResult struct {
 	reason string
 }
 
-func (app *RollBot) HelpCommand(vk *VKReq) (Resulter, error) {
+func (app *RollBot) HelpCommand(vk VKReq) (Resulter, error) {
 	h := HelpResult{}
 	h.helps = []string{"/roll XdY+Z XdY+Z ... XdY+Z REASON - бросок кубиков.\n",
 		"X - количество, Y - число граней\n",
@@ -23,7 +23,7 @@ func (app *RollBot) HelpCommand(vk *VKReq) (Resulter, error) {
 	return  &h, nil
 }
 
-func (h *HelpResult) String() string {
+func (h *HelpResult) VKString() string {
 	s := strings.Join(h.helps, "")
 	return s
 }

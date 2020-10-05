@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-chi/chi"
-	"text/template"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
+	"text/template"
 	"time"
 )
 
@@ -51,7 +51,7 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 				log.Println(err)
 				return
 			}
-			result, err := command(vkreq)
+			result, err := command(*vkreq)
 			if err != nil {
 				result = NewErrorResult(err)
 			}
@@ -76,7 +76,7 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				log.Println(err)
 			}
-			err = rb.SendResult( vkreq, user + "\n" +result.String())
+			err = rb.SendResult( vkreq, user + "\n" +result.VKString())
 		}
 	}
 

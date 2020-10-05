@@ -22,13 +22,15 @@ type rollResultSet struct {
 	sum int64
 }
 
-func (app *RollBot) RollCommand(vk *VKReq) (Resulter, error) {
-	tmpString := strings.TrimSpace(vk.Object.Message.Text)
+func (app *RollBot) RollCommand(vk VKReq) (Resulter, error) {
+	tmpString := vk.Object.Message.Text
 	reason, err := GetReason(tmpString)
 	if err != nil {
 		return nil, err
 	}
-	tmpString = strings.ReplaceAll(tmpString, reason, "")
+	if reason != "" {
+		tmpString = strings.ReplaceAll(tmpString, reason, "")
+	}
 	reason = strings.ReplaceAll(strings.ReplaceAll(reason, "(", ""), ")", "")
 	args := strings.Split(tmpString, " ")
 	rr := RollResult{
@@ -80,7 +82,7 @@ func ParseRoll(s string) (int64, int64, int64, bool) {
 		return 0,0,0, false
 	}
 	if ok {
-		s = "0"+s
+		s = "1"+s
 		count, dice, adder := SplitRoll(s)
 		return count, dice, adder, true
 	}
@@ -99,7 +101,7 @@ func ParseRoll(s string) (int64, int64, int64, bool) {
 		return 0,0,0, false
 	}
 	if ok {
-		s = "0" + s + "+0"
+		s = "1" + s + "+0"
 		count, dice, adder := SplitRoll(s)
 		return count, dice, adder, true
 	}
@@ -124,8 +126,7 @@ func SplitRoll(s string) (int64, int64, int64)  {
 	return int64(count), int64(dice), int64(adder)
 }
 
-func (r *RollResult) String() string {
-	fmt.Println("стринг", r)
+func (r *RollResult) VKString() string {
 	if len(r.results) == 0 {
 		return "Не удалось распарсить ни один из аргументов. Введите в формате XXXdYYY+ZZZ"
 	}
@@ -137,7 +138,7 @@ func (r *RollResult) String() string {
 		s += fmt.Sprintf("%dd%d+%d: %d - %v+%d\n",
 			res.count, res.dice, res.adder, res.sum, res.results, res.adder)
 	}
-	return ""
+	return s
 }
 
 func (r *RollResult) Comment() string  {

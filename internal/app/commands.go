@@ -1,14 +1,13 @@
 package app
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 )
 
 type Resulter interface {
 	HTML() string
-	fmt.Stringer
+	VKString() string
 	Comment() string
 }
 
@@ -20,7 +19,7 @@ func NewErrorResult(err error) *ErrorResult {
 	return &ErrorResult{err}
 }
 
-func (h *ErrorResult) String() string {
+func (h *ErrorResult) VKString() string {
 	return h.err.Error()
 }
 
@@ -32,7 +31,7 @@ func (h *ErrorResult) HTML() string {
 	return "<div>" + h.err.Error() + "</div>"
 }
 
-func (app *RollBot) ParseCommand(vkr *VKReq) (func(*VKReq) (Resulter, error), error) {
+func (app *RollBot) ParseCommand(vkr *VKReq) (func(VKReq) (Resulter, error), error) {
 	vkr.Object.Message.Text = strings.TrimSpace(strings.ToLower(vkr.Object.Message.Text))
 	argsList := strings.Split(vkr.Object.Message.Text, " ")
 	if len(argsList) > 0 {

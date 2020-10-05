@@ -150,6 +150,7 @@ type Result struct {
 	Command string
 	Result string
 	Date string
+	Comment string
 }
 
 type ResultsList struct {
@@ -159,7 +160,7 @@ type ResultsList struct {
 
 func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error)  {
 	results := make([]Result,0)
-	q := `SELECT u.username, u.id, l.command, l.result, l.date FROM logs l 
+	q := `SELECT u.username, u.id, l.command, l.result, l.date, l.comment FROM logs l 
 			JOIN users u on l.user_id  = u.id `
 	args := make([]interface{}, 0)
 	if userid != 0 {
@@ -175,7 +176,7 @@ func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error)  {
 	for rows.Next() {
 		r := Result{}
 		d := int64(0)
-		err := rows.Scan(&r.Username, &r.UserID, &r.Command, &r.Result, &d)
+		err := rows.Scan(&r.Username, &r.UserID, &r.Command, &r.Result, &d, &r.Comment)
 		if err != nil {
 			return nil, err
 		}
