@@ -38,7 +38,6 @@ func (app *RollBot) RollCommand(vk VKReq) (Resulter, error) {
 		comment: reason,
 		finalSum: 0,
 	}
-	fmt.Println(args)
 	if len(args) <2 {
 		args = append(args, "1d6+0")
 	}
@@ -63,7 +62,6 @@ func (app *RollBot) RollCommand(vk VKReq) (Resulter, error) {
 	for _, v := range rr.results {
 		rr.finalSum += v.sum
 	}
-	fmt.Println(&rr)
 	return &rr, nil
 }
 
@@ -154,5 +152,5 @@ func (r *RollResult) HTML() string {
 		s += fmt.Sprintf("<div>%dd%d+%d: %d - %v+%d\n</div>",
 			res.count, res.dice, res.adder, res.sum, res.results, res.adder)
 	}
-	return ""
+	return s
 }
