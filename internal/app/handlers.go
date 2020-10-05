@@ -17,6 +17,7 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
+	fmt.Println(string(body))
 	vkreq := &VKReq{}
 	err = json.Unmarshal(body, vkreq)
 	if err != nil {
