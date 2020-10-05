@@ -7,13 +7,27 @@ import (
 )
 
 type RollResult struct {
+	results [][]int64
 
 }
 
 func (app *RollBot) RollCommand(vk *VKReq) (Resulter, error) {
 	tmpString := strings.TrimSpace(vk.Object.Message.Text)
+	reason, err := GetReason(tmpString)
+	if err != nil {
+		return nil, err
+	}
+	tmpString = strings.ReplaceAll(tmpString, reason, "")
+	reason = strings.ReplaceAll(strings.ReplaceAll(reason, "(", ""), ")", "")
 	args := strings.Split(tmpString, " ")
 	fmt.Println(args)
+	if len(args) <2 {
+		// r, err := app.Generator.Roll(1, 6)
+		// if err != nil {
+		// 	return nil, err
+		// }
+
+	}
 	return &RollResult{}, nil
 }
 

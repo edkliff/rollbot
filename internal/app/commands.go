@@ -59,7 +59,7 @@ func GetReason(s string) (string, error) {
 	if reasonb == nil {
 		return "", nil
 	}
-	reason := string(reasonb[1:len(reasonb)-1])
+	reason := string(reasonb)
 	return reason, nil
 }
 
