@@ -3,92 +3,64 @@ package app
 import (
 	"errors"
 	"fmt"
-	"github.com/edkliff/rollbot/internal/generator"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-type Command uint8
-
-const (
-	UnknownCommand Command = iota
-	Roll
-	CreateCharacter
-	Help
-)
-
-func (app *RollBot) HelpCommand(a ...string) (string, error) {
-	return "/roll XdY+Z XdY+Z ... XdY+Z REASON - бросок кубиков.\n" +
-		"X - количество, Y - число граней\n" +
-		"Z - дополнительный плюс к результату, REASON - описание броска\n" +
-		"Все параметры опциональны.\n" +
-		// "/create character - создать две пары аттрибутов для генерации персонажа\n" +
-		"/help - просмотр этой подсказки.", nil
+type Resulter interface {
+	HTML() string
+	fmt.Stringer
+	Comment() string
 }
 
-func (app *RollBot) RollCommand(args ...string) (string, error) {
-	if len(args) == 0 {
-		result, err := app.Generator.Roll(2, 6)
-		if err != nil {
-			return "", err
-		}
-		resultString := fmt.Sprintf("2d6: %d - %v", generator.Sum(result), result)
-		return resultString, nil
-	}
-	args, reason, err := GetReason(strings.Join(args, " "))
-	if err != nil {
-		return "", err
-	}
-	resultString := ""
-	finalSum := int64(0)
-	for _, arg := range args {
-		if isRoll(arg) {
-			count, dice, adder, err := ParseRoll(arg)
-			if err != nil {
-				return "", err
-			}
-			r, err := app.Generator.Roll(count, dice)
-			if err != nil {
-				return "", err
-			}
-			sum := generator.Sum(r) + adder
-			finalSum += sum
-			resultString += fmt.Sprintf("%dd%d+%d: %d - %v\n", count, dice, adder, sum, r)
-		}
-	}
-
-	resultString = fmt.Sprintf("Сумма: %d\n", finalSum) + resultString
-	if len(reason) > 0 {
-		resultString = reason + "\n" + resultString
-	}
-	return resultString, nil
+type ErrorResult struct {
+	err error
 }
 
-func GetReason(s string) ([]string, string, error) {
+func NewErrorResult(err error) *ErrorResult {
+	return &ErrorResult{err}
+}
+
+func (h *ErrorResult) String() string {
+	return h.err.Error()
+}
+
+func (h *ErrorResult) Comment() string  {
+	return h.err.Error()
+}
+
+func (h *ErrorResult) HTML() string {
+	return "<div>" + h.err.Error() + "</div>"
+}
+
+func (app *RollBot) ParseCommand(vkr *VKReq) (func(*VKReq) (Resulter, error), error) {
+	vkr.Object.Message.Text = strings.TrimSpace(strings.ToLower(vkr.Object.Message.Text))
+	argsList := strings.Split(vkr.Object.Message.Text, " ")
+	if len(argsList) > 0 {
+		switch argsList[0] {
+		case "/roll":
+			return app.RollCommand,  nil
+		case "/help":
+			return app.HelpCommand, nil
+		}
+	}
+	return app.HelpCommand, nil
+}
+
+
+func GetReason(s string) (string, error) {
 	seq := "\\(.*\\)"
 	rx, err := regexp.Compile(seq)
 	if err != nil {
-		return make([]string, 0), "", err
+		return "", err
 	}
 	reasonb := rx.Find([]byte(s))
 	if reasonb == nil {
-		args := strings.Split(s, " ")
-		return args, "", nil
+		return "", nil
 	}
-	reason := string(reasonb)
-	withoutReason := strings.ReplaceAll(s, reason, "")
-	withoutReason = strings.TrimSpace(withoutReason)
-	args := strings.Split(withoutReason, " ")
-	return args, reason, nil
-}
-
-func isRoll(s string) bool {
-	ok, err := regexp.Match("[0-9]*d?[0-9]*\\+?[0-9]*", []byte(s))
-	if err != nil {
-		return false
-	}
-	return ok
+	reason := string(reasonb[1:len(reasonb)-1])
+	return reason, nil
 }
 
 func ParseRoll(s string) (int64, int64, int64, error) {
@@ -139,22 +111,4 @@ func ParseRoll(s string) (int64, int64, int64, error) {
 
 
 	return count, dice, adder, nil
-}
-
-func (app *RollBot) ParseCommand(vkr *VKReq) (func(...string) (string, error), []string, error) {
-	vkr.Object.Message.Text = strings.TrimSpace(strings.ToLower(vkr.Object.Message.Text))
-	argsList := strings.Split(vkr.Object.Message.Text, " ")
-	if len(argsList) > 0 {
-		args := make([]string, 0)
-		if len(argsList) > 1 {
-			args = argsList[1:]
-		}
-		switch argsList[0] {
-		case "/roll":
-			return app.RollCommand, args, nil
-		case "/help":
-			return app.HelpCommand, args, nil
-		}
-	}
-	return app.HelpCommand, make([]string, 0), nil
 }

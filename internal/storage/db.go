@@ -8,7 +8,7 @@ type Storage interface {
 	LoadUsers() error
 	UsersList() string
 	GetUsers() (*UsersList, error)
-	WriteTask(string, string, int) error
+	WriteTask(string, string, string, int) error
 	GetLogs(int) (*ResultsList, error)
 }
 

@@ -1,15 +1,6 @@
 package app
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
-	"github.com/edkliff/rollbot/internal/config"
-	"github.com/edkliff/rollbot/internal/generator"
-	"io/ioutil"
-	"net/http"
-	"net/url"
-	"strconv"
 	"strings"
 )
 
@@ -43,53 +34,7 @@ type VKReq struct {
 	Secret  string `json:"secret"`
 }
 
-func (vkr VKReq) SendResult(text string, gen *generator.Generator, c config.Config) error {
-	params := make(map[string]string)
-	params["user_id"] = fmt.Sprintf("%d", vkr.Object.Message.FromID)
-	params["random_id"] = fmt.Sprintf("%d", gen.Random(10000000, 2147483646))
-	if vkr.Object.Message.PeerID != 0 {
-		delete(params, "user_id")
-		params["peer_id"] = fmt.Sprintf("%d", vkr.Object.Message.PeerID)
-	}
-	params["message"] = text
-	if vkr.Object.Message.ConversationMessageID != 0 {
-		params["reply_to"] = fmt.Sprintf("%d", vkr.Object.Message.ID)
-	}
-	_, err := SendWithParams("messages.send", params, c)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func SendWithParams(method string, params map[string]string, c config.Config) ([]byte, error) {
-	params["access_token"] = c.VK.Token
-	params["v"] = c.VK.APIVersion
-	address, err := url.Parse(c.VK.VKServer + method)
-	if err != nil {
-		return nil, err
-	}
-	query := address.Query()
-	for k, v := range params {
-		query.Set(k, v)
-	}
-	address.RawQuery = query.Encode()
-	response, err := http.Get(address.String())
-	if err != nil {
-		return nil, err
-	}
-
-	defer response.Body.Close()
-	content, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	return content, nil
-}
-
-func (vkr *VKReq) IsCommand() bool {
+func (vkr *VKReq) RemoveQuotesAndCheckIsCommand() bool {
 	s := strings.Replace(vkr.Object.Message.Text, "\"", "", -1)
 	vkr.Object.Message.Text = s
 	if len(s) > 0 && s[0] == '/' {
@@ -98,32 +43,4 @@ func (vkr *VKReq) IsCommand() bool {
 	return false
 }
 
-type UserResponse struct {
-	Response []struct {
-		ID              int    `json:"id"`
-		FirstName       string `json:"first_name"`
-		LastName        string `json:"last_name"`
-		IsClosed        bool   `json:"is_closed"`
-		CanAccessClosed bool   `json:"can_access_closed"`
-	} `json:"response"`
-}
 
-func (rb *RollBot) FindUser(userId int) (string, error) {
-	method := "users.get"
-	params := make(map[string]string)
-	params["user_ids"] = strconv.Itoa(userId)
-	response, err := SendWithParams(method, params, rb.Config)
-	if err != nil {
-		return "", err
-	}
-	u := UserResponse{}
-	err = json.Unmarshal(response, &u)
-	if err != nil {
-		return "", err
-	}
-	if len(u.Response) < 1 {
-		return "", errors.New("user not found")
-	}
-	name := fmt.Sprintf("%s %s", u.Response[0].FirstName, u.Response[0].LastName)
-	return name, nil
-}

@@ -51,6 +51,7 @@ func (s *SQLiteConnection) CreateDB() error {
     user_id int,
     command TEXT,
     result TEXT,
+    comment TEXT,
     date integer
 )`)
 	if err != nil {
@@ -133,10 +134,10 @@ func (s *SQLiteConnection) GetUsers() (*UsersList, error)  {
 	return &l, nil
 }
 
-func (s *SQLiteConnection) WriteTask(original string, response string, user int) error {
+func (s *SQLiteConnection) WriteTask(original, response, comment string, user int) error {
 	date := time.Now().Unix()
-	q := `INSERT INTO logs (user_id, command, result, date) VALUES ($1, $2, $3, $4)`
-	_, err := s.Database.Exec(q, user, original, response, date)
+	q := `INSERT INTO logs (user_id, command, result, comment, date) VALUES ($1, $2, $3, $4)`
+	_, err := s.Database.Exec(q, user, original, response, comment, date)
 	if err != nil {
 		return err
 	}

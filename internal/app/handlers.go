@@ -44,16 +44,15 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 		defer func() {
 			log.Printf(fmt.Sprintf("request executed for %s", time.Since(start).String()))
 		}()
-		if vkreq.IsCommand() {
-			originalMessage := vkreq.Object.Message.Text
-			command, params, err := rb.ParseCommand(vkreq)
+		if vkreq.RemoveQuotesAndCheckIsCommand() {
+			command, err := rb.ParseCommand(vkreq)
 			if err != nil {
 				log.Println(err)
 				return
 			}
-			result, err := command(params...)
+			result, err := command(vkreq)
 			if err != nil {
-				result = err.Error()
+				result = NewErrorResult(err)
 			}
 			user, err := rb.DB.GetUser(vkreq.Object.Message.FromID)
 			if err != nil {
@@ -69,13 +68,13 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 					}
 				}
 			}
-			err = rb.DB.WriteTask(originalMessage, result, vkreq.Object.Message.FromID)
+			err = rb.DB.WriteTask(vkreq.Object.Message.Text,
+				result.HTML(), result.Comment(),
+				vkreq.Object.Message.FromID)
 			if err != nil {
 				log.Println(err)
 			}
-			result = user + "\n" + result
-
-			err = vkreq.SendResult(result, rb.Generator, rb.Config)
+			err = rb.SendResult( vkreq, user + "\n" +result.String())
 		}
 	}
 

@@ -19,3 +19,4 @@ func CreateRollBot(conf config.Config, store storage.Storage) *RollBot {
 		Generator: generator.InitGenerator(),
 	}
 }
+
