@@ -9,11 +9,11 @@ type HelpResult struct {
 
 func (app *RollBot) HelpCommand(vk VKReq) (Resulter, error) {
 	h := HelpResult{}
-	h.helps = []string{"/roll XdY+Z XdY+Z ... XdY+Z REASON - бросок кубиков.\n",
+	h.helps = []string{"/roll XdY+Z XdY+Z ... XdY+Z (REASON) - бросок кубиков.\n",
 		"X - количество, Y - число граней\n",
 		"Z - дополнительный плюс к результату, REASON - описание броска\n",
 		"Все параметры опциональны.\n",
-		"/create - создать две пары характеристик для DnD или Pathfinder\n",
+		"/create (REASON) - создать две пары характеристик для DnD или Pathfinder\n",
 		"/help - просмотр этой подсказки.",
 	}
 	comment, err := GetReason(vk.Object.Message.Text)
