@@ -10,11 +10,11 @@ type RollResult struct {
 
 }
 
-func (app *RollBot) RollCommand(vk VKReq) (string, error) {
+func (app *RollBot) RollCommand(vk *VKReq) (Resulter, error) {
 	tmpString := strings.TrimSpace(vk.Object.Message.Text)
 	args := strings.Split(tmpString, " ")
 	fmt.Println(args)
-	return "", nil
+	return &RollResult{}, nil
 }
 
 func isRoll(s string) bool {
