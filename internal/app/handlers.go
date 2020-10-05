@@ -114,7 +114,7 @@ func (rb *RollBot) GetUsers(w http.ResponseWriter, req *http.Request) {
 
 
 func (rb *RollBot) GetHistory(w http.ResponseWriter, req *http.Request) {
-	tmpl, err := template.ParseFiles("templates/base.html.tmpl", "templates/logs.html.tmpl")
+	tmpl, err := template.ParseFiles("templates/logs.html.tmpl","templates/base.html.tmpl")
 	if err != nil {
 		log.Println(err)
 		return
@@ -133,7 +133,7 @@ func (rb *RollBot) GetHistory(w http.ResponseWriter, req *http.Request) {
 
 
 func (rb *RollBot) GetUserHistory(w http.ResponseWriter, req *http.Request) {
-	tmpl, err := template.ParseFiles("templates/logs.html.tmpl", "templates/base.html.tmpl" )
+	tmpl, err := template.ParseFiles("templates/logs.html.tmpl","templates/base.html.tmpl" )
 	if err != nil {
 		log.Println(err)
 		return
