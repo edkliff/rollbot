@@ -189,7 +189,7 @@ func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error)  {
 			dateObj.Hour(), dateObj.Minute(), dateObj.Second(),
 			dateObj.Day(), dateObj.Month(), dateObj.Year())
 		r.Date = date
-		r.Result =template.HTMLEscapeString(r.Result)
+		r.Result = r.Result
 		results = append(results, r)
 	}
 	rl := ResultsList{Results:results}
