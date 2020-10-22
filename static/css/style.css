@@ -22,7 +22,7 @@ a {
 }
 
 .content-tables {
-    width: 70%;
+    width: 100%;
     margin: 0 auto;
     max-height: 90vh;
     overflow: auto;
@@ -34,12 +34,16 @@ a {
     justify-content: space-around;
     margin: 0 25px 5px 25px;
     flex-wrap: wrap;
-    width: 70%;
+    width: 100%;
     position: relative;
     z-index: 100;
     padding-top: 15px;
 }
 
+.wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
 
 .all-content {
     display: flex;
@@ -144,19 +148,27 @@ main {
     background: url("/static/img/fog-1.png") repeat-x;
     background-size: contain;
     background-position: center;
-    -webkit-animation: marquee 180s linear infinite;
-    animation: marquee 180s linear infinite;
+    -webkit-animation: marquee 140s linear infinite;
+    animation: marquee 140s linear infinite;
     opacity: 0.5;
 }
 .fog__img--second {
     background: url("/static/img/fog-2.png") repeat-x;
     background-size: contain;
     background-position: center;
-    -webkit-animation: marquee 120s linear infinite reverse;
-    animation: marquee 120s linear infinite reverse;
-    opacity: 0.3;
+    -webkit-animation: marquee 100s linear infinite reverse;
+    animation: marquee 100s linear infinite reverse;
+    opacity: 0.4;
 }
 
+.fog__img--third {
+    background: url("/static/img/fog-2.png") repeat-x;
+    background-size: contain;
+    background-position: center;
+    -webkit-animation: marquee 80s linear infinite;
+    animation: marquee 80s linear infinite;
+    opacity: 0.1;
+}
 @-webkit-keyframes marquee {
     0% {
         -webkit-transform: translate3d(0, 0, 0);
