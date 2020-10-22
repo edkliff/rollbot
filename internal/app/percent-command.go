@@ -37,6 +37,12 @@ func (app *RollBot) PercentCommand(vk VKReq) (Resulter, error) {
 		if err != nil {
 			return nil, err
 		}
+		if !ok {
+			ok, err = regexp.Match("^\\d{1,3}$", []byte(val))
+			if err != nil {
+				return nil, err
+			}
+		}
 		if ok {
 			pr := PResult{
 				percent: val,
@@ -64,6 +70,9 @@ func (app *RollBot) PercentCommand(vk VKReq) (Resulter, error) {
 
 func (h *PercentResult) VKString() string {
 	s := ""
+	if len(h.results) == 0 {
+		return "Не удалось распарсить ни один из аргументов. Введите в формате XX%"
+	}
 	for _, v := range h.results {
 		if v.result {
 			s += fmt.Sprintf("%s : Успех\n", v.percent)
@@ -80,6 +89,9 @@ func (h *PercentResult) Comment() string {
 
 func (h *PercentResult) HTML() string {
 	s := ""
+	if len(h.results) == 0 {
+		return "Не удалось распарсить ни один из аргументов. Введите в формате XX%"
+	}
 	for _, v := range h.results {
 		if v.result {
 			s += fmt.Sprintf("<div>%s : Успех</div>", v.percent)
