@@ -32,11 +32,12 @@ a {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin: 5px 25px 5px 25px;
+    margin: 0 25px 5px 25px;
     flex-wrap: wrap;
     width: 70%;
     position: relative;
     z-index: 100;
+    padding-top: 15px;
 }
 
 
