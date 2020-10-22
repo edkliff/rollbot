@@ -132,15 +132,17 @@ main {
     background: url("/static/img/fog-1.png") repeat-x;
     background-size: contain;
     background-position: center;
-    -webkit-animation: marquee 60s linear infinite;
-    animation: marquee 60s linear infinite;
+    -webkit-animation: marquee 300s linear infinite;
+    animation: marquee 300s linear infinite;
+    opacity: 0.5;
 }
 .fog__img--second {
     background: url("/static/img/fog-2.png") repeat-x;
     background-size: contain;
     background-position: center;
-    -webkit-animation: marquee 40s linear infinite;
-    animation: marquee 40s linear infinite;
+    -webkit-animation: marquee 180s linear infinite reverse;
+    animation: marquee 180s linear infinite reverse;
+    opacity: 0.5;
 }
 
 @-webkit-keyframes marquee {
