@@ -75,7 +75,7 @@ func ParseRoll(s string) (int64, int64, int64, bool) {
 		return 0, 0, 0, false
 	}
 	if ok {
-		count, dice, adder := SplitRoll(s)
+		count, dice, adder := SplitRollWithAdder(s)
 		return count, dice, adder, true
 	}
 
@@ -85,7 +85,25 @@ func ParseRoll(s string) (int64, int64, int64, bool) {
 	}
 	if ok {
 		s = "1" + s
-		count, dice, adder := SplitRoll(s)
+		count, dice, adder := SplitRollWithAdder(s)
+		return count, dice, adder, true
+	}
+	ok, err = regexp.Match("^\\d{1,3}d\\d{1,3}[-]\\d{1,3}$", []byte(s))
+	if err != nil {
+		return 0, 0, 0, false
+	}
+	if ok {
+		count, dice, adder := SplitRollWithSubtr(s)
+		return count, dice, adder, true
+	}
+
+	ok, err = regexp.Match("^d\\d{1,3}[-]\\d{1,3}$", []byte(s))
+	if err != nil {
+		return 0, 0, 0, false
+	}
+	if ok {
+		s = "1" + s
+		count, dice, adder := SplitRollWithSubtr(s)
 		return count, dice, adder, true
 	}
 
@@ -95,7 +113,7 @@ func ParseRoll(s string) (int64, int64, int64, bool) {
 	}
 	if ok {
 		s += "+0"
-		count, dice, adder := SplitRoll(s)
+		count, dice, adder := SplitRollWithAdder(s)
 		return count, dice, adder, true
 	}
 	ok, err = regexp.Match("^d\\d{1,3}$", []byte(s))
@@ -104,13 +122,13 @@ func ParseRoll(s string) (int64, int64, int64, bool) {
 	}
 	if ok {
 		s = "1" + s + "+0"
-		count, dice, adder := SplitRoll(s)
+		count, dice, adder := SplitRollWithAdder(s)
 		return count, dice, adder, true
 	}
 	return 0, 0, 0, false
 }
 
-func SplitRoll(s string) (int64, int64, int64) {
+func SplitRollWithAdder(s string) (int64, int64, int64) {
 	fst := strings.Split(s, "+")
 	sst := strings.Split(fst[0], "d")
 	count, err := strconv.Atoi(sst[0])
@@ -126,6 +144,25 @@ func SplitRoll(s string) (int64, int64, int64) {
 		return 0, 0, 0
 	}
 	return int64(count), int64(dice), int64(adder)
+}
+
+
+func SplitRollWithSubtr(s string) (int64, int64, int64) {
+	fst := strings.Split(s, "-")
+	sst := strings.Split(fst[0], "d")
+	count, err := strconv.Atoi(sst[0])
+	if err != nil {
+		return 0, 0, 0
+	}
+	dice, err := strconv.Atoi(sst[1])
+	if err != nil {
+		return 0, 0, 0
+	}
+	subtr, err := strconv.Atoi(fst[1])
+	if err != nil {
+		return 0, 0, 0
+	}
+	return int64(count), int64(dice), int64(subtr*-1)
 }
 
 func (r *RollResult) VKString() string {
