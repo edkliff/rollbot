@@ -33,7 +33,7 @@ func (app *RollBot) PercentCommand(vk VKReq) (Resulter, error) {
 	reason = strings.ReplaceAll(strings.ReplaceAll(reason, "(", ""), ")", "")
 	args := strings.Split(tmpString, " ")
 	for _, val := range args {
-		ok, err := regexp.Match("^\\d{1,2}%$", []byte(val))
+		ok, err := regexp.Match("^\\d{1,3}%$", []byte(val))
 		if err != nil {
 			return nil, err
 		}
