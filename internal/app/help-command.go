@@ -14,7 +14,7 @@ func (app *RollBot) HelpCommand(vk VKReq) (Resulter, error) {
 		"Z - дополнительный плюс к результату, REASON - описание броска\n",
 		"Все параметры опциональны.\n",
 		"/create (REASON) - создать две пары характеристик для DnD или Pathfinder\n",
-		"/% XX% ... XX% - бросок кубика-процентника, указывается процент успеха",
+		"/% XX% ... XX% - бросок кубика-процентника, указывается процент успеха\n",
 		"/help - просмотр этой подсказки.",
 	}
 	comment, err := GetReason(vk.Object.Message.Text)
