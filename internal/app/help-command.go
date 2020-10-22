@@ -1,6 +1,9 @@
 package app
 
-import "strings"
+import (
+	"html"
+	"strings"
+)
 
 type HelpResult struct {
 	helps  []string
@@ -31,7 +34,7 @@ func (h *HelpResult) VKString() string {
 }
 
 func (h *HelpResult) Comment() string {
-	return h.reason
+	return html.EscapeString(h.reason)
 }
 
 func (h *HelpResult) HTML() string {

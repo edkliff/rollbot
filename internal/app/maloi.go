@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"html"
 )
 
 type Maloi struct {
@@ -28,7 +29,7 @@ func (h *Maloi) VKString() string {
 }
 
 func (h *Maloi) Comment() string {
-	s := fmt.Sprintf("Очко Малого уходит %s", h.owner)
+	s :=  html.EscapeString(fmt.Sprintf("Очко Малого уходит %s", h.owner))
 	return s
 }
 
