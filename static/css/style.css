@@ -78,6 +78,9 @@ a {
     margin: 2px 2px 2px 2px;
     font-size: 20px;
     border-radius: 7px;
+    display: block;
+    max-height: 90vh;
+    overflow: auto;
 }
 
 .bold-text {
@@ -121,6 +124,7 @@ main {
     height: 100%;
     width: 100%;
     overflow: hidden;
+    z-index: -1;
 }
 
 .fog__img {
@@ -142,7 +146,7 @@ main {
     background-position: center;
     -webkit-animation: marquee 180s linear infinite reverse;
     animation: marquee 180s linear infinite reverse;
-    opacity: 0.5;
+    opacity: 0.3;
 }
 
 @-webkit-keyframes marquee {
@@ -164,5 +168,21 @@ main {
     100% {
         -webkit-transform: translate3d(-200vw, 0, 0);
         transform: translate3d(-200vw, 0, 0);
+    }
+}
+
+content-tables {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+@media screen and (max-width: 767px) {
+    content-tables {
+        width: 70%;
+
+        max-height: 80vh;
     }
 }
