@@ -17,7 +17,6 @@ type UserResponse struct {
 	} `json:"response"`
 }
 
-
 func (rb *RollBot) FindUser(userId int) (string, error) {
 	method := "users.get"
 	params := make(map[string]string)
@@ -37,4 +36,3 @@ func (rb *RollBot) FindUser(userId int) (string, error) {
 	name := fmt.Sprintf("%s %s", u.Response[0].FirstName, u.Response[0].LastName)
 	return name, nil
 }
-

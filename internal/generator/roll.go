@@ -67,9 +67,9 @@ func Sum(sl []int64) int64 {
 	return sum
 }
 
-func Sort(sl []int64) []int64  {
+func Sort(sl []int64) []int64 {
 	sorted := make([]int64, len(sl))
 	copy(sorted, sl)
-	sort.Slice(sorted,func(i, j int) bool { return sorted[i] > sorted[j] })
+	sort.Slice(sorted, func(i, j int) bool { return sorted[i] > sorted[j] })
 	return sorted
 }

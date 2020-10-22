@@ -8,7 +8,6 @@ import (
 	"net/url"
 )
 
-
 func (rb RollBot) SendResult(vkr *VKReq, text string) error {
 
 	params := make(map[string]string)

@@ -42,5 +42,3 @@ func (vkr *VKReq) RemoveQuotesAndCheckIsCommand() bool {
 	}
 	return false
 }
-
-

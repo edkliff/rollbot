@@ -18,17 +18,16 @@ func (app *RollBot) RollMaloi(vk VKReq) (Resulter, error) {
 		r--
 	}
 	user := users.Users[r]
-	h := Maloi{owner:user.Username}
-	return  &h, nil
+	h := Maloi{owner: user.Username}
+	return &h, nil
 }
-
 
 func (h *Maloi) VKString() string {
 	s := fmt.Sprintf("Очко Малого уходит %s", h.owner)
 	return s
 }
 
-func (h *Maloi) Comment() string  {
+func (h *Maloi) Comment() string {
 	s := fmt.Sprintf("Очко Малого уходит %s", h.owner)
 	return s
 }

@@ -1,0 +1,106 @@
+{{template "base" .}}
+
+{{define "main"}}
+    <div class="character-attributes-line" >
+        <div>
+            <table class="content-character">
+                <tr class="bold-text">
+                    <td width="75%">Сила</td>
+                    <td>{{ .STR }}</td>
+                </tr>
+                {{ range .Skills.STR }}
+                    <tr>
+                        <td>{{ .Name }}</td>
+                        <td>{{ .Value }}</td>
+                    </tr>
+                {{end}}
+            </table>
+        </div>
+        <div>
+            <table class="content-character">
+                <tr class="bold-text">
+                    <td width="75%">Ловкость</td>
+                    <td>{{ .DEX }}</td>
+                </tr>
+                {{ range .Skills.DEX }}
+                    <tr>
+                        <td>{{ .Name }}</td>
+                        <td>{{ .Value }}</td>
+                    </tr>
+                {{end}}
+            </table>
+        </div>
+        <div>
+            <table class="content-character">
+                <tr class="bold-text">
+                    <td width="75%">Выносливость</td>
+                    <td>{{ .STA }}</td>
+                </tr>
+                {{ range .Skills.STA }}
+                    <tr>
+                        <td>{{ .Name }}</td>
+                        <td>{{ .Value }}</td>
+                    </tr>
+                {{end}}
+            </table>
+        </div>
+    </div>
+    <div class="character-attributes-line" >
+        <div>
+            <table class="content-character">
+                <tr class="bold-text">
+                    <td width="75%">Образование</td>
+                    <td>{{ .LRN }}</td>
+                </tr>
+                {{ range .Skills.LRN }}
+                    <tr>
+                        <td>{{ .Name }}</td>
+                        <td>{{ .Value }}</td>
+                    </tr>
+                {{end}}
+            </table>
+        </div>
+        <div>
+            <table class="content-character">
+                <tr class="bold-text">
+                    <td width="75%">Интеллект</td>
+                    <td>{{ .INT }}</td>
+                </tr>
+                {{ range .Skills.INT }}
+                    <tr>
+                        <td>{{ .Name }}</td>
+                        <td>{{ .Value }}</td>
+                    </tr>
+                {{end}}
+            </table>
+        </div>
+        <div>
+            <table class="content-character">
+                <tr class="bold-text">
+                    <td width="75%">Обаяние</td>
+                    <td>{{ .CHA }}</td>
+                </tr>
+                {{ range .Skills.CHA }}
+                    <tr>
+                        <td>{{ .Name }}</td>
+                        <td>{{ .Value }}</td>
+                    </tr>
+                {{end}}
+            </table>
+        </div>
+    </div>
+    <div class="character-attributes-line">
+        <div>
+            <tr class="bold-text">
+                <td width="75%">Удача</td>
+                <td>{{ .LCK }}</td>
+            </tr>
+            {{ range .Skills.LCK }}
+                <tr>
+                    <td>{{ .Name }}</td>
+                    <td>{{ .Value }}</td>
+                </tr>
+            {{end}}
+        </div>
+    </div>
+{{end}}

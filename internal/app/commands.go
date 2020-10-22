@@ -1,6 +1,7 @@
 package app
 
 import (
+	"errors"
 	"regexp"
 	"strings"
 )
@@ -23,7 +24,7 @@ func (h *ErrorResult) VKString() string {
 	return h.err.Error()
 }
 
-func (h *ErrorResult) Comment() string  {
+func (h *ErrorResult) Comment() string {
 	return h.err.Error()
 }
 
@@ -36,17 +37,18 @@ func (app *RollBot) ParseCommand(vkr *VKReq) (func(VKReq) (Resulter, error), err
 	argsList := strings.Split(vkr.Object.Message.Text, " ")
 	if len(argsList) > 0 {
 		switch strings.ToLower(argsList[0]) {
-		case "/roll":
-			return app.RollCommand,  nil
-		case "/help":
+		case "/roll", "/r":
+			return app.RollCommand, nil
+		case "/help", "/h":
 			return app.HelpCommand, nil
-		case "/create":
+		case "/create", "/c":
 			return app.CreateCommand, nil
+		case "/%":
+			return app.PercentCommand, nil
 		}
 	}
-	return app.HelpCommand, nil
+	return nil, errors.New("unknown command")
 }
-
 
 func GetReason(s string) (string, error) {
 	seq := "\\(.*\\)"

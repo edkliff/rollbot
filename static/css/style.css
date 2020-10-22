@@ -51,7 +51,7 @@ th, td {
     width: 100%;
 }
 
-.content  {
+.content-tables  {
     width: 90%;
     color: burlywood;
     text-align: center;
@@ -65,3 +65,21 @@ th, td {
     font-weight: bold;
 }
 
+.character-attributes-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 5px 25px 5px 25px;
+    flex-wrap: wrap;
+}
+
+
+.content-characters  {
+    width: 90%;
+    color: burlywood;
+    text-align: center;
+    border: 2px solid peachpuff;
+    margin: 2px 2px 2px 2px;
+    font-size: 20px;
+    border-radius: 7px;
+}

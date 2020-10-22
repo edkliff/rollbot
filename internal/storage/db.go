@@ -10,6 +10,7 @@ type Storage interface {
 	GetUsers() (*UsersList, error)
 	WriteTask(string, string, string, int) error
 	GetLogs(int) (*ResultsList, error)
+	GetCharacter(int) (int, error)
 }
 
 const (

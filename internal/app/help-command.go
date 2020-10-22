@@ -3,7 +3,7 @@ package app
 import "strings"
 
 type HelpResult struct {
-	helps []string
+	helps  []string
 	reason string
 }
 
@@ -17,11 +17,11 @@ func (app *RollBot) HelpCommand(vk VKReq) (Resulter, error) {
 		"/help - просмотр этой подсказки.",
 	}
 	comment, err := GetReason(vk.Object.Message.Text)
-	if err !=nil {
+	if err != nil {
 		return nil, err
 	}
 	h.reason = comment
-	return  &h, nil
+	return &h, nil
 }
 
 func (h *HelpResult) VKString() string {
@@ -29,7 +29,7 @@ func (h *HelpResult) VKString() string {
 	return s
 }
 
-func (h *HelpResult) Comment() string  {
+func (h *HelpResult) Comment() string {
 	return h.reason
 }
 

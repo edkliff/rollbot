@@ -17,7 +17,7 @@ type CreateResult struct {
 }
 
 type characteristic struct {
-	sum int64
+	sum  int64
 	roll []int64
 }
 
@@ -44,7 +44,7 @@ func (app *RollBot) CreateCommand(vk VKReq) (Resulter, error) {
 		set2:    set2,
 		sumSet1: 0,
 		sumSet2: 0,
-		reason: reason,
+		reason:  reason,
 	}
 	for _, v := range set1 {
 		c.sumSet1 += v.sum
@@ -52,23 +52,23 @@ func (app *RollBot) CreateCommand(vk VKReq) (Resulter, error) {
 	for _, v := range set2 {
 		c.sumSet2 += v.sum
 	}
-	return  &c, nil
+	return &c, nil
 }
 
-func (app *RollBot) CreateCharacteristics() ([]characteristic, error)  {
+func (app *RollBot) CreateCharacteristics() ([]characteristic, error) {
 	resultSet := make([]characteristic, 0, 6)
-	for i:=0; i <6; i++ {
+	for i := 0; i < 6; i++ {
 		ok := true
 		c := characteristic{}
 		for ok {
 			res, err := app.Generator.Roll(4, 6)
-			if err !=nil {
+			if err != nil {
 				return nil, err
 			}
 			res = generator.Sort(res)
 			c.roll = res
 			c.sum = generator.Sum(res[:3])
-			if c.sum >=8 {
+			if c.sum >= 8 {
 				ok = false
 			}
 		}
@@ -92,7 +92,7 @@ func (h *CreateResult) VKString() string {
 	return s
 }
 
-func (h *CreateResult) Comment() string  {
+func (h *CreateResult) Comment() string {
 	return h.reason
 }
 

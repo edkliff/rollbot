@@ -61,12 +61,12 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 					log.Println(err)
 				}
 				user = u
-				if err == nil {
-					err := rb.DB.SetUser(vkreq.Object.Message.FromID, user)
-					if err != nil {
-						log.Println(err)
-					}
+
+				err = rb.DB.SetUser(vkreq.Object.Message.FromID, user)
+				if err != nil {
+					log.Println(err)
 				}
+
 			}
 			err = rb.DB.WriteTask(vkreq.Object.Message.Text,
 				result.HTML(), result.Comment(),
@@ -74,14 +74,17 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				log.Println(err)
 			}
-			err = rb.SendResult( vkreq, user + "\n" +result.VKString())
+			err = rb.SendResult(vkreq, user+"\n"+result.VKString())
+			if err !=nil {
+				log.Println(err)
+			}
 		}
 	}
 
 }
 
 func (rb *RollBot) Homepage(w http.ResponseWriter, req *http.Request) {
-	tmpl, err := template.ParseFiles( "templates/homepage.html.tmpl","templates/base.html.tmpl")
+	tmpl, err := template.ParseFiles("templates/homepage.html.tmpl", "templates/base.html.tmpl")
 	if err != nil {
 		log.Println(err)
 		return
@@ -111,9 +114,8 @@ func (rb *RollBot) GetUsers(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-
 func (rb *RollBot) GetHistory(w http.ResponseWriter, req *http.Request) {
-	tmpl, err := template.ParseFiles("templates/logs.html.tmpl","templates/base.html.tmpl")
+	tmpl, err := template.ParseFiles("templates/logs.html.tmpl", "templates/base.html.tmpl")
 	if err != nil {
 		log.Println(err)
 		return
@@ -130,20 +132,43 @@ func (rb *RollBot) GetHistory(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-
 func (rb *RollBot) GetUserHistory(w http.ResponseWriter, req *http.Request) {
-	tmpl, err := template.ParseFiles("templates/logs.html.tmpl","templates/base.html.tmpl" )
+	tmpl, err := template.ParseFiles("templates/logs.html.tmpl", "templates/base.html.tmpl")
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	userId :=  chi.URLParam(req, "userId")
+	userId := chi.URLParam(req, "userId")
 	uid, err := strconv.Atoi(userId)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 	users, err := rb.DB.GetLogs(uid)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = tmpl.Execute(w, users)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+}
+
+func (rb *RollBot) GetCharacter(w http.ResponseWriter, req *http.Request) {
+	tmpl, err := template.ParseFiles("templates/character.html.tmpl", "templates/base.html.tmpl")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	userId := chi.URLParam(req, "userId")
+	uid, err := strconv.Atoi(userId)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	users, err := rb.DB.GetCharacter(uid)
 	if err != nil {
 		log.Println(err)
 		return

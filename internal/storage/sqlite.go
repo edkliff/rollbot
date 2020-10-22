@@ -100,17 +100,17 @@ func (s *SQLiteConnection) UsersList() string {
 }
 
 type User struct {
-	ID int
+	ID       int
 	Username string
-	Count int
+	Count    int
 }
 
 type UsersList struct {
 	Users []User
 }
 
-func (s *SQLiteConnection) GetUsers() (*UsersList, error)  {
-	users := make([]User,0)
+func (s *SQLiteConnection) GetUsers() (*UsersList, error) {
+	users := make([]User, 0)
 	q := `SELECT
 		u.id, u.username, count(l.id)
 		FROM users u 
@@ -130,7 +130,7 @@ func (s *SQLiteConnection) GetUsers() (*UsersList, error)  {
 		}
 		users = append(users, u)
 	}
-	l := UsersList{Users:users}
+	l := UsersList{Users: users}
 	return &l, nil
 }
 
@@ -145,21 +145,20 @@ func (s *SQLiteConnection) WriteTask(original, response, comment string, user in
 }
 
 type Result struct {
-	UserID int
+	UserID   int
 	Username string
-	Command string
-	Result string
-	Date string
-	Comment string
+	Command  string
+	Result   string
+	Date     string
+	Comment  string
 }
 
 type ResultsList struct {
 	Results []Result
 }
 
-
-func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error)  {
-	results := make([]Result,0)
+func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error) {
+	results := make([]Result, 0)
 	q := `SELECT u.username, u.id, l.command, l.result, l.date, l.comment FROM logs l 
 			JOIN users u on l.user_id  = u.id `
 	args := make([]interface{}, 0)
@@ -192,6 +191,10 @@ func (s *SQLiteConnection) GetLogs(userid int) (*ResultsList, error)  {
 		r.Result = r.Result
 		results = append(results, r)
 	}
-	rl := ResultsList{Results:results}
+	rl := ResultsList{Results: results}
 	return &rl, nil
+}
+
+func (s *SQLiteConnection) GetCharacter(id int) (int, error) {
+	return 0, nil
 }
