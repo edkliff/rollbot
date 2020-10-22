@@ -2,7 +2,6 @@ package app
 
 import (
 	"fmt"
-	"html"
 	"regexp"
 	"strconv"
 	"strings"
@@ -85,7 +84,7 @@ func (h *PercentResult) VKString() string {
 }
 
 func (h *PercentResult) Comment() string {
-	return html.EscapeString(h.reason)
+	return h.reason
 }
 
 func (h *PercentResult) HTML() string {

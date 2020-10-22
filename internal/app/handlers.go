@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-chi/chi"
+	"html"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -68,8 +69,8 @@ func (rb *RollBot) VKHandle(w http.ResponseWriter, req *http.Request) {
 				}
 
 			}
-			err = rb.DB.WriteTask(vkreq.Object.Message.Text,
-				result.HTML(), result.Comment(),
+			err = rb.DB.WriteTask(html.EscapeString(vkreq.Object.Message.Text),
+				result.HTML(), html.EscapeString(result.Comment()),
 				vkreq.Object.Message.FromID)
 			if err != nil {
 				log.Println(err)

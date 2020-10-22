@@ -3,7 +3,6 @@ package app
 import (
 	"fmt"
 	"github.com/edkliff/rollbot/internal/generator"
-	"html"
 	"strings"
 )
 
@@ -94,7 +93,7 @@ func (h *CreateResult) VKString() string {
 }
 
 func (h *CreateResult) Comment() string {
-	return html.EscapeString(h.reason)
+	return h.reason
 }
 
 func (h *CreateResult) HTML() string {

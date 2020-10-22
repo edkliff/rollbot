@@ -1,7 +1,6 @@
 package app
 
 import (
-	"html"
 	"strings"
 )
 
@@ -34,7 +33,7 @@ func (h *HelpResult) VKString() string {
 }
 
 func (h *HelpResult) Comment() string {
-	return html.EscapeString(h.reason)
+	return h.reason
 }
 
 func (h *HelpResult) HTML() string {
