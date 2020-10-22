@@ -7,25 +7,31 @@
         <title>МОЯRОШNД</title>
         <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
     </head>
-    <body bgcolor="#101010" link="burlywood" vlink="burlywood" alink="burlywood">
-    <center>
-        <div class="menu-buttons">
-            <div>
-                <a href="/"><img src="/static/img/jiub.png" class="menu-button-big-creature"></a>
-            </div>
-            <div class="menu-button-big">
-                <a href="/users">Пользователи</a>
-            </div>
-            <div class="menu-button-big">
-                <a href="/history">История</a>
-            </div>
-        </div>
-        <div>
-            {{template "main" .}}
-        </div>
+    <body bgcolor="#101010" link="burlywood" vlink="burlywood" alink="burlywood" padding-bottom="40px">
+        <main>
+            <center>
+                <div class="fog__container">
+                    <div class="fog__img fog__img--first"></div>
+                    <div class="fog__img fog__img--second"></div>
+                </div>
+                <div class="menu-buttons">
+                    <div>
+                        <a href="/"><img src="/static/img/123.png" class="menu-button-big-creature"></a>
+                    </div>
+                    <div class="menu-button-big">
+                        <a href="/users">Пользователи</a>
+                    </div>
+                    <div class="menu-button-big">
+                        <a href="/history">История</a>
+                    </div>
+                </div>
+                    {{template "main" .}}
 
-        <div class="smalltext-magic"> Powered by SRMS devs, 2019 / Сделано крысанами в 2019 году</div>
-    </center>
+                <div class="smalltext-magic"> Powered by SRMS devs, 2019 / Сделано крысанами в 2019 году</div>
+
+                <div class="mallbery-caa" style="z-index: 2147483647 !important; text-transform: none !important; position: fixed;"></div>
+            </center>
+        </main>
     </body>
 </html>
 {{end}}
